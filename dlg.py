@@ -5,8 +5,8 @@ def dialog_buttons(buttons):
 
     c1 = chr(1)
     RES_LIST = 1
-    RES_UP = 2
-    RES_DOWN =  3
+    RES_MOVE_UP = 2
+    RES_MOVE_DOWN =  3
     RES_CAP = 5
     RES_HINT = 7
     RES_CMD_B = 8
@@ -29,13 +29,15 @@ def dialog_buttons(buttons):
     while True:
         items = '\t'.join([item['cap'] for item in buttons])
         b_sel = '1' if val_index>=0 else '0'
+        b_en_up = '1' if val_index>0 else '0'
+        b_en_down = '1' if (val_index>=0 and val_index<len(buttons)-1) else '0'
 
         text = '\n'.join([''
             , c1.join(['type=label', 'pos=6,6,194,0', 'cap=Additional buttons:'])
             , c1.join(['type=listbox', 'pos=6,30,194,330', 'items='+items, 'val='+str(val_index), 'act=1'])
 
-            , c1.join(['type=button', 'pos=6,336,94,0', 'cap=Up', 'en='+b_sel])
-            , c1.join(['type=button', 'pos=100,336,194,0', 'cap=Down', 'en='+b_sel])
+            , c1.join(['type=button', 'pos=6,336,94,0', 'cap=Up', 'en='+b_en_up])
+            , c1.join(['type=button', 'pos=100,336,194,0', 'cap=Down', 'en='+b_en_down])
 
             , c1.join(['type=label', 'pos=200,34,600,0', 'cap=Caption:'])
             , c1.join(['type=edit', 'pos=306,30,600,0', 'val='+val_cap])
@@ -103,3 +105,12 @@ def dialog_buttons(buttons):
             s = dlg_file(True, '', '', 'PNG files|*.png')
             if s:
                 val_icon = s
+
+        if res==RES_MOVE_UP:
+            buttons.insert(val_index-1, buttons.pop(val_index))
+            val_index -= 1
+
+        if res==RES_MOVE_DOWN:
+            buttons.insert(val_index+1, buttons.pop(val_index))
+            val_index += 1
+
