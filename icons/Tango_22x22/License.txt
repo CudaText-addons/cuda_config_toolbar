@@ -1,0 +1,4 @@
+Icon theme "Tango" is based on Tango Desktop Icons released into the public domain
+http://tango.freedesktop.org/tango_icon_library
+ 
+ 

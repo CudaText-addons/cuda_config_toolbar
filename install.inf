@@ -1,0 +1,20 @@
+[info]
+title=Config Toolbar
+desc=Configures main toolbar in CudaText: icon-set and additional buttons
+type=cudatext-plugin
+subdir=cuda_config_icons
+homepage=https://github.com/CudaText-addons/cuda_config_toolbar
+
+[item1]
+section=events
+events=on_start
+
+[item10]
+section=commands
+caption=Config Toolbar\Icon set...
+method=do_icons
+
+[item11]
+section=commands
+caption=Config Toolbar\Buttons...
+method=do_buttons
