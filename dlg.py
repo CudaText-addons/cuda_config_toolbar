@@ -80,6 +80,25 @@ def dialog_buttons(buttons):
                 }
             buttons.append(d)
 
+            val_cap = '?'
+            val_hint = ''
+            val_cmd = ''
+            val_icon = ''
+
+        if res==RES_B_CHG:
+            d = {
+                'cap': text[RES_CAP],
+                'hint': text[RES_HINT],
+                'cmd': text[RES_CMD_VAL],
+                'icon': text[RES_ICON_VAL]
+                }
+            buttons[val_index] = d
+
+            val_cap = text[RES_CAP]
+            val_hint = text[RES_HINT]
+            val_cmd = text[RES_CMD_VAL]
+            val_icon = text[RES_ICON_VAL]
+
         if res==RES_LIST:
             val_index = int(text[RES_LIST])
             if val_index>=0:
@@ -88,4 +107,12 @@ def dialog_buttons(buttons):
                 val_cmd = buttons[val_index]['cmd']
                 val_icon = buttons[val_index]['icon']
 
+        if res==RES_CMD_B:
+            s = dlg_commands(COMMANDS_USUAL+COMMANDS_PLUGINS)
+            if s:
+                val_cmd = s[2:]
 
+        if res==RES_ICON_B:
+            s = dlg_file(True, '', '', 'PNG files|*.png')
+            if s:
+                val_icon = s
