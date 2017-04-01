@@ -35,7 +35,20 @@ def do_load_icons(name):
 
 
 def do_load_buttons(buttons):
-    print('btn cnt: ', str(len(buttons)))
+    print('Loading toolbar (%d items)' % len(buttons))
+    for b in buttons:
+        fn = b['icon']
+        if fn:
+            imageindex = toolbar_proc('top', TOOLBAR_ADD_ICON, text=fn)
+        else:
+            imageindex = -1
+
+        toolbar_proc('top', TOOLBAR_ADD_BUTTON,
+            text = b['cap'],
+            text2 = b['hint'],
+            command = b['cmd'],
+            index2 = imageindex
+            )
 
 
 class Command:
