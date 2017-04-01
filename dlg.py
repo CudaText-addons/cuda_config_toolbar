@@ -21,13 +21,16 @@ def dialog_buttons(buttons):
     RES_CANCEL = 17
 
     val_index = -1
-    val_cap = '?'
+    val_cap = ''
     val_hint = ''
     val_cmd = ''
     val_icon = ''
 
     while True:
-        items = '\t'.join([item['cap'] for item in buttons])
+        items = [item['cap'] for item in buttons]
+        items = ['----' if s=='-' else '(no text)' if s=='' else s for s in items]
+        items = '\t'.join(items)
+
         b_sel = '1' if val_index>=0 else '0'
         b_en_up = '1' if val_index>0 else '0'
         b_en_down = '1' if (val_index>=0 and val_index<len(buttons)-1) else '0'
@@ -71,6 +74,9 @@ def dialog_buttons(buttons):
         val_icon = text[RES_ICON_VAL]
 
         if res==RES_B_ADD:
+            if not val_cap and not val_icon:
+                msg_box('Button needs caption, or icon, or caption+icon', MB_OK+MB_ICONWARNING)
+                continue
             d = {'cap': val_cap, 'hint': val_hint, 'cmd': val_cmd, 'icon': val_icon}
             buttons.append(d)
 
