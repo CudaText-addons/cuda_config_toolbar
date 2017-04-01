@@ -9,33 +9,43 @@ fn_buttons = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_config_toolbar.json'
 name_def = '(default)'
 
 buttons = []
+blocked = None
+
+if app_api_version()<'1.0.173':
+    msg_box('Plugins "Config Toolbar" needs newer CudaText', MB_OK)
+    blocked = True
+
 
 def do_load_icons(name):
     dir = os.path.join(dir_icons, name)
     if not os.path.isdir(dir): return
 
-    print('Setting icons:', name)
+    print('Loading icons:', name)
     s = name.split('_')[1].split('x')
-    app_proc(PROC_TOOLBAR_ICON_SET_SIZE, s[0]+','+s[1])
+    toolbar_proc('top', TOOLBAR_SET_ICON_SIZES, index=int(s[0]), index2=int(s[1]))
 
-    names = app_proc(PROC_TOOLBAR_ENUM, '').splitlines()
-    for (i, name) in enumerate(names):
-        if not name: continue
-        name = name.split(';')[1]
-        if not name: continue
+    items = toolbar_proc('top', TOOLBAR_ENUM)
+    for (i, item) in enumerate(items):
+        name = item['cap']
+        cmd = item['cmd']
+        if not name:
+            continue
+        if cmd: #user-added item
+            continue
+
         filename = os.path.join(dir, name+'.png')
         if not os.path.isfile(filename):
             print('Cannot find icon:', filename)
             continue
-        index = app_proc(PROC_TOOLBAR_ICON_ADD, filename)
-        if index is None:
+        imageindex = toolbar_proc('top', TOOLBAR_ADD_ICON, text=filename)
+        if imageindex is None:
             print('Cannot load icon:', filename)
             continue
-        app_proc(PROC_TOOLBAR_ICON_SET, str(i)+','+str(index))
+        toolbar_proc('top', TOOLBAR_SET_BUTTON, index=i, index2=imageindex)
 
 
 def do_load_buttons(buttons):
-    print('Loading toolbar (%d items)' % len(buttons))
+    print('Loading toolbar config')
     for b in buttons:
         fn = b['icon']
         if fn:
@@ -55,6 +65,9 @@ class Command:
 
     def do_buttons(self):
         global buttons
+        global blocked
+        if blocked: return
+
         res = dialog_buttons(buttons)
         if not res: return
         buttons = res
@@ -64,6 +77,9 @@ class Command:
         msg_box('Toolbar config will be applied after CudaText restart', MB_OK+MB_ICONINFO)
 
     def do_icons(self):
+        global blocked
+        if blocked: return
+
         dirs = os.listdir(dir_icons)
         if not dirs:
             print('Cannot find icon-sets')
@@ -82,7 +98,9 @@ class Command:
 
     def on_start(self, ed_self):
         global buttons
+        global blocked
         global name_def
+        if blocked: return
 
         name = ini_read(fn_ini, 'op', 'set', '')
         if name and name!=name_def:
