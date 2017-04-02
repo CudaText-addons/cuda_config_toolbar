@@ -1,7 +1,7 @@
 from cudatext import *
 
 
-def dialog_buttons(buttons, clear):
+def dialog_buttons(buttons, clear, is_submenu=False):
 
     c1 = chr(1)
     RES_LIST = 1
@@ -10,7 +10,7 @@ def dialog_buttons(buttons, clear):
     RES_CAP = 5
     RES_HINT = 7
     RES_CMD_B = 8
-    RES_SUBMENU_B = 9
+    RES_CMD_SUBMENU = 9
     RES_CMD_VAL = 10
     RES_ICON_B = 11
     RES_ICON_VAL = 12
@@ -18,9 +18,10 @@ def dialog_buttons(buttons, clear):
     RES_B_ADDSEP = 14
     RES_B_CHANGE = 15
     RES_B_DELETE = 16
-    RES_OK = 17
-    RES_CANCEL = 18
-    RES_DEL_DEF = 19
+    RES_CONFIG_SUBMENU = 17
+    RES_OK = 18
+    RES_CANCEL = 19
+    RES_DEL_DEF = 20
 
     val_index = -1
     val_cap = ''
@@ -29,41 +30,45 @@ def dialog_buttons(buttons, clear):
     val_icon = ''
 
     while True:
-        items = [item['cap'] if not item['cmd'].startswith('toolmenu:') else '(sub-menu)' for item in buttons]
+        items = [item['cap'] if not item['cmd']=='menu' else '(menu) '+item['cap'] for item in buttons]
         items = ['---' if s=='-' else '(no text)' if s=='' else s for s in items]
         items = '\t'.join(items)
 
         b_sel = '1' if val_index>=0 else '0'
+        b_sel_menu = '1' if val_index>=0 and buttons[val_index]['cmd']=='menu' else '0'
         b_en_up = '1' if val_index>0 else '0'
         b_en_down = '1' if (val_index>=0 and val_index<len(buttons)-1) else '0'
         b_clear = '1' if clear else '0'
+        b_en_clear = '1' if not is_submenu else '0'
+        title = '** Sub-menu items **' if is_submenu else 'Buttons'
 
         text = '\n'.join([''
-            , c1.join(['type=label', 'pos=6,6,194,0', 'cap=Buttons:'])
-            , c1.join(['type=listbox', 'pos=6,30,194,350', 'items='+items, 'val='+str(val_index), 'act=1'])
+            , c1.join(['type=label', 'pos=6,6,194,0', 'cap='+title])
+            , c1.join(['type=listbox', 'pos=6,30,144,350', 'items='+items, 'val='+str(val_index), 'act=1'])
 
-            , c1.join(['type=button', 'pos=6,356,94,0', 'cap=Move &up', 'en='+b_en_up])
-            , c1.join(['type=button', 'pos=100,356,194,0', 'cap=Move &down', 'en='+b_en_down])
+            , c1.join(['type=button', 'pos=6,356,74,0', 'cap=&Up', 'en='+b_en_up])
+            , c1.join(['type=button', 'pos=80,356,144,0', 'cap=&Down', 'en='+b_en_down])
 
-            , c1.join(['type=label', 'pos=200,34,600,0', 'cap=&Caption:'])
-            , c1.join(['type=edit', 'pos=306,30,600,0', 'val='+val_cap])
-            , c1.join(['type=label', 'pos=200,70,600,0', 'cap=&Tooltip:'])
-            , c1.join(['type=edit', 'pos=306,65,600,0', 'val='+val_hint])
-            , c1.join(['type=button', 'pos=200,100,300,0', 'cap=C&ommand...'])
-            , c1.join(['type=button', 'pos=200,130,300,0', 'cap=Sub-&menu'])
-            , c1.join(['type=edit', 'pos=306,100,600,0', 'cap='+val_cmd])
-            , c1.join(['type=button', 'pos=200,165,300,0', 'cap=&Icon file...'])
-            , c1.join(['type=edit', 'pos=306,165,600,0', 'cap='+val_icon])
+            , c1.join(['type=label', 'pos=150,34,600,0', 'cap=&Caption:'])
+            , c1.join(['type=edit', 'pos=256,30,600,0', 'val='+val_cap])
+            , c1.join(['type=label', 'pos=150,70,600,0', 'cap=&Tooltip:'])
+            , c1.join(['type=edit', 'pos=256,65,600,0', 'val='+val_hint])
+            , c1.join(['type=button', 'pos=150,100,250,0', 'cap=C&ommand...'])
+            , c1.join(['type=button', 'pos=150,130,250,0', 'cap=Sub-&menu'])
+            , c1.join(['type=edit', 'pos=256,100,600,0', 'cap='+val_cmd])
+            , c1.join(['type=button', 'pos=150,165,250,0', 'cap=&Icon file...'])
+            , c1.join(['type=edit', 'pos=256,165,600,0', 'cap='+val_icon])
 
-            , c1.join(['type=button', 'pos=400,210,600,0', 'cap=Add &button'])
-            , c1.join(['type=button', 'pos=400,240,600,0', 'cap=Add &separator'])
-            , c1.join(['type=button', 'pos=400,270,600,0', 'cap=Chan&ge selected button', 'en='+b_sel])
-            , c1.join(['type=button', 'pos=400,300,600,0', 'cap=&Delete selected button', 'en='+b_sel])
+            , c1.join(['type=button', 'pos=200,210,394,0', 'cap=Add &button'])
+            , c1.join(['type=button', 'pos=200,240,394,0', 'cap=Add &separator'])
+            , c1.join(['type=button', 'pos=400,210,600,0', 'cap=Chan&ge selected item', 'en='+b_sel])
+            , c1.join(['type=button', 'pos=400,240,600,0', 'cap=&Delete selected item', 'en='+b_sel])
+            , c1.join(['type=button', 'pos=400,270,600,0', 'cap=&Config selected menu...', 'en='+b_sel_menu])
 
             , c1.join(['type=button', 'pos=394,356,494,0', 'cap=OK', 'props=1'])
             , c1.join(['type=button', 'pos=500,356,600,0', 'cap=Cancel'])
 
-            , c1.join(['type=check', 'pos=400,330,600,0', 'cap=Remo&ve std buttons', 'val='+b_clear])
+            , c1.join(['type=check', 'pos=200,330,600,0', 'cap=Remo&ve standard buttons', 'val='+b_clear, 'en='+b_en_clear])
             ])
 
         res = dlg_custom('Toolbar buttons', 606, 388, text, focused=RES_CAP)
@@ -93,8 +98,10 @@ def dialog_buttons(buttons, clear):
             buttons.append(d)
 
         if res==RES_B_CHANGE:
-            d = {'cap': val_cap, 'hint': val_hint, 'cmd': val_cmd, 'icon': val_icon}
-            buttons[val_index] = d
+            buttons[val_index]['cap'] = val_cap
+            buttons[val_index]['hint'] = val_hint
+            buttons[val_index]['cmd'] = val_cmd
+            buttons[val_index]['icon'] = val_icon
 
         if res==RES_B_DELETE:
             if val_index>=0:
@@ -115,8 +122,8 @@ def dialog_buttons(buttons, clear):
             if s:
                 val_cmd = s[2:]
 
-        if res==RES_SUBMENU_B:
-            val_cmd = 'toolmenu:id'+str(val_index+1)
+        if res==RES_CMD_SUBMENU:
+            val_cmd = 'menu'
 
         if res==RES_ICON_B:
             s = dlg_file(True, '', '', 'PNG files|*.png')
@@ -130,4 +137,10 @@ def dialog_buttons(buttons, clear):
         if res==RES_MOVE_DOWN:
             buttons.insert(val_index+1, buttons.pop(val_index))
             val_index += 1
+
+        if res==RES_CONFIG_SUBMENU:
+            subitems = buttons[val_index].get('sub', [])
+            res = dialog_buttons(subitems, False, True)
+            if res:
+                buttons[val_index]['sub'] = subitems
 

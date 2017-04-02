@@ -37,6 +37,7 @@ def do_save_ops():
 
 
 def do_load_icons(name):
+
     dir = os.path.join(dir_icons, name)
     if not os.path.isdir(dir): return
 
@@ -64,21 +65,43 @@ def do_load_icons(name):
         toolbar_proc('top', TOOLBAR_SET_BUTTON, index=i, index2=imageindex)
 
 
+def do_load_submenu(id_menu, items):
+
+    menu_proc(id_menu, MENU_CLEAR)
+    for item in items:
+        _cap = item.get('cap', '')
+        _cmd = item.get('cmd', 0)
+        is_menu = _cmd=='menu'
+        if is_menu: _cmd = 0
+        id_new = menu_proc(id_menu, MENU_ADD, caption=_cap, command=_cmd)
+        if is_menu:
+            do_load_submenu(id_new, item.get('sub', []))
+
+
 def do_load_buttons(buttons):
+
     print('Loading toolbar config')
-    for b in buttons:
+    for (index, b) in enumerate(buttons):
         fn = b['icon']
         if fn:
             imageindex = toolbar_proc('top', TOOLBAR_ADD_ICON, text=fn)
         else:
             imageindex = -1
 
+        _cmd = b['cmd']
+        is_menu = _cmd=='menu'
+        if is_menu:
+            _cmd = 'toolmenu:id'+str(index)
+
         toolbar_proc('top', TOOLBAR_ADD_BUTTON,
             text = b['cap'],
             text2 = b['hint'],
-            command = b['cmd'],
+            command = _cmd,
             index2 = imageindex
             )
+
+        if is_menu:
+            do_load_submenu(_cmd, b.get('sub', []))
 
 
 class Command:
