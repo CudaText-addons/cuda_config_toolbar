@@ -1,22 +1,10 @@
 import os
-import json
 from cudatext import *
-from .dlg import *
+from . import opt
+from . import dlg
 
-fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_config_toolbar.json')
-dir_icons = os.path.join(os.path.dirname(__file__), 'icons')
-icons_def = '(default)'
+icons_default = '(default)'
 
-options = {
-    'icons': '',
-    'sub': [],
-    'clear': False,
-    }
-blocked = None
-
-if app_api_version()<'1.0.173':
-    msg_box('Plugins "Config Toolbar" needs newer CudaText', MB_OK)
-    blocked = True
 
 try:
     import cuda_config_icons
@@ -25,20 +13,10 @@ except ImportError:
     pass
 
 
-def do_load_ops():
-    global options
-    with open(fn_config, 'r', encoding='utf8') as f:
-        options = json.load(f)
-
-def do_save_ops():
-    global options
-    with open(fn_config, 'w', encoding='utf8') as f:
-        f.write(json.dumps(options, indent=2))
-
 
 def do_load_icons(name):
 
-    dir = os.path.join(dir_icons, name)
+    dir = os.path.join(opt.dir_icon_sets, name)
     if not os.path.isdir(dir): return
 
     print('Loading icons:', name)
@@ -107,54 +85,47 @@ def do_load_buttons(buttons):
 class Command:
 
     def do_buttons(self):
-        global options
-        global blocked
-        if blocked: return
+        if opt.blocked: return
 
-        res = dialog_buttons(options['sub'], options['clear'])
+        res = dlg.dialog_buttons(opt.options['sub'], opt.options['clear'])
         if res is None: return
-        options['sub'], options['clear'] = res
-        do_save_ops()
+        opt.options['sub'], opt.options['clear'] = res
+        opt.do_save_ops()
         msg_box('Toolbar config will be applied after CudaText restart', MB_OK+MB_ICONINFO)
 
 
     def do_icons(self):
-        global options
-        global blocked
-        if blocked: return
+        if opt.blocked: return
 
-        dirs = os.listdir(dir_icons)
+        dirs = os.listdir(opt.dir_icon_sets)
         if not dirs:
             print('Cannot find icon-sets')
             return
-        dirs = [icons_def] + sorted(dirs)
+        dirs = [icons_default] + sorted(dirs)
         res = dlg_menu(MENU_LIST, '\n'.join(dirs))
         if res is None: return
 
         name = dirs[res]
-        options['icons'] = name
-        do_save_ops()
+        opt.options['icon_set'] = name
+        opt.do_save_ops()
 
-        if name==icons_def:
+        if name==icons_default:
             msg_box('Default icons will be set after app restart', MB_OK)
             return
         do_load_icons(name)
 
     def on_start(self, ed_self):
-        global options
-        global blocked
-        global icons_def
-        if blocked: return
+        if opt.blocked: return
 
-        if os.path.isfile(fn_config):
-            do_load_ops()
+        if os.path.isfile(opt.fn_config):
+            opt.do_load_ops()
 
-            icons = options.get('icons', '')
-            if icons and icons!=icons_def:
+            icons = opt.options.get('icon_set', '')
+            if icons and icons!=icons_default:
                 do_load_icons(icons)
 
-            if options.get('clear', False):
+            if opt.options.get('clear', False):
                 toolbar_proc('top', TOOLBAR_DELETE_ALL)
-            buttons = options.get('sub', [])
+            buttons = opt.options.get('sub', [])
             if buttons:
                 do_load_buttons(buttons)

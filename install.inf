@@ -11,10 +11,10 @@ events=on_start
 
 [item10]
 section=commands
-caption=Config Toolbar\Icon set...
-method=do_icons
-
-[item11]
-section=commands
 caption=Config Toolbar\Buttons...
 method=do_buttons
+
+[item15]
+section=commands
+caption=Config Toolbar\Icon set...
+method=do_icons

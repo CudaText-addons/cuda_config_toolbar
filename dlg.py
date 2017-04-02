@@ -1,5 +1,6 @@
+import os
 from cudatext import *
-
+from . import opt
 
 def dialog_buttons(buttons, chk_clear, is_submenu=False):
 
@@ -126,8 +127,9 @@ def dialog_buttons(buttons, chk_clear, is_submenu=False):
             val_cmd = 'menu'
 
         if res==RES_ICON_B:
-            s = dlg_file(True, '', '', 'PNG files|*.png')
+            s = dlg_file(True, '', opt.dir_icons, 'Image files|*.png;*.bmp')
             if s:
+                opt.dir_icons = os.path.dirname(s)
                 val_icon = s
 
         if res==RES_MOVE_UP:
