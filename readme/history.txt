@@ -2,6 +2,7 @@
 2017.04.02
 + option in dlg "Remove std buttons"
 * change format of config (del old settings/cuda_config_toolbar.json)
+* change config for icons: used one .json for icons+buttons
 
 2017.04.01
 initial code for button config,

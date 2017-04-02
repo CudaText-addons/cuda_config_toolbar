@@ -3,12 +3,15 @@ import json
 from cudatext import *
 from .dlg import *
 
+fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_config_toolbar.json')
 dir_icons = os.path.join(os.path.dirname(__file__), 'icons')
-fn_ini = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_config_icons.ini')
-fn_buttons = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_config_toolbar.json')
-name_def = '(default)'
+icons_def = '(default)'
 
-options = {'sub': [], 'clear': False}
+options = {
+    'icons': '',
+    'sub': [],
+    'clear': False,
+    }
 blocked = None
 
 if app_api_version()<'1.0.173':
@@ -20,6 +23,17 @@ try:
     msg_box('Plugin "Config Toolbar" is new one, and "Config Icons" is old one - you must delete "Config Icons" plugin, its functions are included', MB_OK)
 except ImportError:
     pass
+
+
+def do_load_ops():
+    global options
+    with open(fn_config, 'r', encoding='utf8') as f:
+        options = json.load(f)
+
+def do_save_ops():
+    global options
+    with open(fn_config, 'w', encoding='utf8') as f:
+        f.write(json.dumps(options, indent=2))
 
 
 def do_load_icons(name):
@@ -77,12 +91,12 @@ class Command:
         res = dialog_buttons(options['sub'], options['clear'])
         if res is None: return
         options['sub'], options['clear'] = res
-        with open(fn_buttons, 'w', encoding='utf8') as f:
-            f.write(json.dumps(options, indent=2))
-
+        do_save_ops()
         msg_box('Toolbar config will be applied after CudaText restart', MB_OK+MB_ICONINFO)
 
+
     def do_icons(self):
+        global options
         global blocked
         if blocked: return
 
@@ -90,14 +104,15 @@ class Command:
         if not dirs:
             print('Cannot find icon-sets')
             return
-        dirs = [name_def] + sorted(dirs)
+        dirs = [icons_def] + sorted(dirs)
         res = dlg_menu(MENU_LIST, '\n'.join(dirs))
         if res is None: return
 
         name = dirs[res]
-        ini_write(fn_ini, 'op', 'set', name)
+        options['icons'] = name
+        do_save_ops()
 
-        if name==name_def:
+        if name==icons_def:
             msg_box('Default icons will be set after app restart', MB_OK)
             return
         do_load_icons(name)
@@ -105,18 +120,18 @@ class Command:
     def on_start(self, ed_self):
         global options
         global blocked
-        global name_def
+        global icons_def
         if blocked: return
 
-        name = ini_read(fn_ini, 'op', 'set', '')
-        if name and name!=name_def:
-            do_load_icons(name)
+        if os.path.isfile(fn_config):
+            do_load_ops()
 
-        if os.path.isfile(fn_buttons):
-            with open(fn_buttons, 'r', encoding='utf8') as f:
-                s = f.read()
-                options = json.loads(s)
+            icons = options.get('icons', '')
+            if icons and icons!=icons_def:
+                do_load_icons(icons)
 
-                if options.get('clear', False):
-                    toolbar_proc('top', TOOLBAR_DELETE_ALL)
-                do_load_buttons(options['sub'])
+            if options.get('clear', False):
+                toolbar_proc('top', TOOLBAR_DELETE_ALL)
+            buttons = options.get('sub', [])
+            if buttons:
+                do_load_buttons(buttons)
