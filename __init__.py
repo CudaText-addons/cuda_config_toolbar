@@ -8,7 +8,7 @@ fn_ini = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_config_icons.ini')
 fn_buttons = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_config_toolbar.json')
 name_def = '(default)'
 
-buttons = []
+options = {'sub': [], 'clear': False}
 blocked = None
 
 if app_api_version()<'1.0.173':
@@ -70,15 +70,15 @@ def do_load_buttons(buttons):
 class Command:
 
     def do_buttons(self):
-        global buttons
+        global options
         global blocked
         if blocked: return
 
-        res = dialog_buttons(buttons)
-        if not res: return
-        buttons = res
+        res = dialog_buttons(options['sub'], options['clear'])
+        if res is None: return
+        options['sub'], options['clear'] = res
         with open(fn_buttons, 'w', encoding='utf8') as f:
-            f.write(json.dumps(buttons, indent=2))
+            f.write(json.dumps(options, indent=2))
 
         msg_box('Toolbar config will be applied after CudaText restart', MB_OK+MB_ICONINFO)
 
@@ -103,7 +103,7 @@ class Command:
         do_load_icons(name)
 
     def on_start(self, ed_self):
-        global buttons
+        global options
         global blocked
         global name_def
         if blocked: return
@@ -115,5 +115,8 @@ class Command:
         if os.path.isfile(fn_buttons):
             with open(fn_buttons, 'r', encoding='utf8') as f:
                 s = f.read()
-                buttons = json.loads(s)
-                do_load_buttons(buttons)
+                options = json.loads(s)
+
+                if options.get('clear', False):
+                    toolbar_proc('top', TOOLBAR_DELETE_ALL)
+                do_load_buttons(options['sub'])

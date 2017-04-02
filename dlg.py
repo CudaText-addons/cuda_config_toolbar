@@ -1,7 +1,7 @@
 from cudatext import *
 
 
-def dialog_buttons(buttons):
+def dialog_buttons(buttons, clear):
 
     c1 = chr(1)
     RES_LIST = 1
@@ -20,6 +20,7 @@ def dialog_buttons(buttons):
     RES_B_DELETE = 16
     RES_OK = 17
     RES_CANCEL = 18
+    RES_DEL_DEF = 19
 
     val_index = -1
     val_cap = ''
@@ -35,6 +36,7 @@ def dialog_buttons(buttons):
         b_sel = '1' if val_index>=0 else '0'
         b_en_up = '1' if val_index>0 else '0'
         b_en_down = '1' if (val_index>=0 and val_index<len(buttons)-1) else '0'
+        b_clear = '1' if clear else '0'
 
         text = '\n'.join([''
             , c1.join(['type=label', 'pos=6,6,194,0', 'cap=Buttons:'])
@@ -60,6 +62,8 @@ def dialog_buttons(buttons):
 
             , c1.join(['type=button', 'pos=394,356,494,0', 'cap=OK', 'props=1'])
             , c1.join(['type=button', 'pos=500,356,600,0', 'cap=Cancel'])
+
+            , c1.join(['type=check', 'pos=400,330,600,0', 'cap=Remo&ve std buttons', 'val='+b_clear])
             ])
 
         res = dlg_custom('Toolbar buttons', 606, 388, text, focused=RES_CAP)
@@ -67,13 +71,15 @@ def dialog_buttons(buttons):
 
         res, text = res
         text = text.splitlines()
-        if res==RES_CANCEL: return
-        if res==RES_OK: return buttons
 
         val_cap = text[RES_CAP]
         val_hint = text[RES_HINT]
         val_cmd = text[RES_CMD_VAL]
         val_icon = text[RES_ICON_VAL]
+        val_del_def = text[RES_DEL_DEF]=='1'
+
+        if res==RES_CANCEL: return
+        if res==RES_OK: return (buttons, val_del_def)
 
         if res==RES_B_ADD:
             if not val_cap and not val_icon:
