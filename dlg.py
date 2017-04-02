@@ -1,7 +1,7 @@
 from cudatext import *
 
 
-def dialog_buttons(buttons, clear, is_submenu=False):
+def dialog_buttons(buttons, chk_clear, is_submenu=False):
 
     c1 = chr(1)
     RES_LIST = 1
@@ -38,12 +38,11 @@ def dialog_buttons(buttons, clear, is_submenu=False):
         b_sel_menu = '1' if val_index>=0 and buttons[val_index]['cmd']=='menu' else '0'
         b_en_up = '1' if val_index>0 else '0'
         b_en_down = '1' if (val_index>=0 and val_index<len(buttons)-1) else '0'
-        b_clear = '1' if clear else '0'
+        b_clear = '1' if chk_clear else '0'
         b_en_clear = '1' if not is_submenu else '0'
-        title = '** Sub-menu items **' if is_submenu else 'Buttons'
 
         text = '\n'.join([''
-            , c1.join(['type=label', 'pos=6,6,194,0', 'cap='+title])
+            , c1.join(['type=label', 'pos=6,6,194,0', 'cap=Items:'])
             , c1.join(['type=listbox', 'pos=6,30,144,350', 'items='+items, 'val='+str(val_index), 'act=1'])
 
             , c1.join(['type=button', 'pos=6,356,74,0', 'cap=&Up', 'en='+b_en_up])
@@ -71,7 +70,8 @@ def dialog_buttons(buttons, clear, is_submenu=False):
             , c1.join(['type=check', 'pos=200,330,600,0', 'cap=Remo&ve standard buttons', 'val='+b_clear, 'en='+b_en_clear])
             ])
 
-        res = dlg_custom('Toolbar buttons', 606, 388, text, focused=RES_CAP)
+        title = 'Sub-menu items' if is_submenu else 'Toolbar buttons'
+        res = dlg_custom(title, 606, 388, text, focused=RES_CAP)
         if not res: return
 
         res, text = res

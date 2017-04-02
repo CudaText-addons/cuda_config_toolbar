@@ -1,6 +1,6 @@
 
 2017.04.02
-+ can configure submenus (and menus in menus)
++ can configure submenus (and nested)
 + option in dlg "Remove std buttons"
 * change format of config (del old settings/cuda_config_toolbar.json)
 * change config for icons: used one .json for icons+buttons
