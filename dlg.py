@@ -10,15 +10,16 @@ def dialog_buttons(buttons):
     RES_CAP = 5
     RES_HINT = 7
     RES_CMD_B = 8
-    RES_CMD_VAL = 9
-    RES_ICON_B = 10
-    RES_ICON_VAL = 11
-    RES_B_ADD = 12
-    RES_B_ADDSEP = 13
-    RES_B_CHANGE = 14
-    RES_B_DELETE = 15
-    RES_OK = 16
-    RES_CANCEL = 17
+    RES_SUBMENU_B = 9
+    RES_CMD_VAL = 10
+    RES_ICON_B = 11
+    RES_ICON_VAL = 12
+    RES_B_ADD = 13
+    RES_B_ADDSEP = 14
+    RES_B_CHANGE = 15
+    RES_B_DELETE = 16
+    RES_OK = 17
+    RES_CANCEL = 18
 
     val_index = -1
     val_cap = ''
@@ -27,8 +28,8 @@ def dialog_buttons(buttons):
     val_icon = ''
 
     while True:
-        items = [item['cap'] for item in buttons]
-        items = ['----' if s=='-' else '(no text)' if s=='' else s for s in items]
+        items = [item['cap'] if not item['cmd'].startswith('toolmenu:') else '(sub-menu)' for item in buttons]
+        items = ['---' if s=='-' else '(no text)' if s=='' else s for s in items]
         items = '\t'.join(items)
 
         b_sel = '1' if val_index>=0 else '0'
@@ -36,31 +37,32 @@ def dialog_buttons(buttons):
         b_en_down = '1' if (val_index>=0 and val_index<len(buttons)-1) else '0'
 
         text = '\n'.join([''
-            , c1.join(['type=label', 'pos=6,6,194,0', 'cap=Additional buttons:'])
-            , c1.join(['type=listbox', 'pos=6,30,194,330', 'items='+items, 'val='+str(val_index), 'act=1'])
+            , c1.join(['type=label', 'pos=6,6,194,0', 'cap=Buttons:'])
+            , c1.join(['type=listbox', 'pos=6,30,194,350', 'items='+items, 'val='+str(val_index), 'act=1'])
 
-            , c1.join(['type=button', 'pos=6,336,94,0', 'cap=Up', 'en='+b_en_up])
-            , c1.join(['type=button', 'pos=100,336,194,0', 'cap=Down', 'en='+b_en_down])
+            , c1.join(['type=button', 'pos=6,356,94,0', 'cap=Move &up', 'en='+b_en_up])
+            , c1.join(['type=button', 'pos=100,356,194,0', 'cap=Move &down', 'en='+b_en_down])
 
-            , c1.join(['type=label', 'pos=200,34,600,0', 'cap=Caption:'])
+            , c1.join(['type=label', 'pos=200,34,600,0', 'cap=&Caption:'])
             , c1.join(['type=edit', 'pos=306,30,600,0', 'val='+val_cap])
-            , c1.join(['type=label', 'pos=200,70,600,0', 'cap=Tooltip:'])
+            , c1.join(['type=label', 'pos=200,70,600,0', 'cap=&Tooltip:'])
             , c1.join(['type=edit', 'pos=306,65,600,0', 'val='+val_hint])
-            , c1.join(['type=button', 'pos=200,100,300,0', 'cap=Command...'])
+            , c1.join(['type=button', 'pos=200,100,300,0', 'cap=C&ommand...'])
+            , c1.join(['type=button', 'pos=200,130,300,0', 'cap=Sub-&menu'])
             , c1.join(['type=edit', 'pos=306,100,600,0', 'cap='+val_cmd])
-            , c1.join(['type=button', 'pos=200,135,300,0', 'cap=Icon file...'])
-            , c1.join(['type=edit', 'pos=306,135,600,0', 'cap='+val_icon])
+            , c1.join(['type=button', 'pos=200,165,300,0', 'cap=&Icon file...'])
+            , c1.join(['type=edit', 'pos=306,165,600,0', 'cap='+val_icon])
 
-            , c1.join(['type=button', 'pos=400,180,600,0', 'cap=Add new button'])
-            , c1.join(['type=button', 'pos=400,210,600,0', 'cap=Add separator'])
-            , c1.join(['type=button', 'pos=400,240,600,0', 'cap=Change selected button', 'en='+b_sel])
-            , c1.join(['type=button', 'pos=400,270,600,0', 'cap=Delete selected button', 'en='+b_sel])
+            , c1.join(['type=button', 'pos=400,210,600,0', 'cap=Add &button'])
+            , c1.join(['type=button', 'pos=400,240,600,0', 'cap=Add &separator'])
+            , c1.join(['type=button', 'pos=400,270,600,0', 'cap=Chan&ge selected button', 'en='+b_sel])
+            , c1.join(['type=button', 'pos=400,300,600,0', 'cap=&Delete selected button', 'en='+b_sel])
 
-            , c1.join(['type=button', 'pos=394,336,494,0', 'cap=OK'])
-            , c1.join(['type=button', 'pos=500,336,600,0', 'cap=Cancel'])
+            , c1.join(['type=button', 'pos=394,356,494,0', 'cap=OK', 'props=1'])
+            , c1.join(['type=button', 'pos=500,356,600,0', 'cap=Cancel'])
             ])
 
-        res = dlg_custom('Toolbar buttons', 606, 368, text, focused=RES_CAP)
+        res = dlg_custom('Toolbar buttons', 606, 388, text, focused=RES_CAP)
         if not res: return
 
         res, text = res
@@ -106,6 +108,9 @@ def dialog_buttons(buttons):
             s = dlg_commands(COMMANDS_USUAL+COMMANDS_PLUGINS)
             if s:
                 val_cmd = s[2:]
+
+        if res==RES_SUBMENU_B:
+            val_cmd = 'toolmenu:id'+str(val_index+1)
 
         if res==RES_ICON_B:
             s = dlg_file(True, '', '', 'PNG files|*.png')
