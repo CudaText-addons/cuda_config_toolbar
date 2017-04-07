@@ -1,4 +1,7 @@
 
+2017.04.07
+- fix: incorrect icon fname gives TypeError on start
+
 2017.04.02.2
 * refactor: move all ops to opt.py
 

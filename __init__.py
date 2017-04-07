@@ -61,9 +61,10 @@ def do_load_buttons(buttons):
     print('Loading toolbar config')
     for (index, b) in enumerate(buttons):
         fn = b['icon']
+        imageindex = None
         if fn:
             imageindex = toolbar_proc('top', TOOLBAR_ADD_ICON, text=fn)
-        else:
+        if imageindex is None:
             imageindex = -1
 
         _cmd = b['cmd']
