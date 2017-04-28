@@ -1,4 +1,7 @@
 
+2017.04.28
++ add 2 icons for indent/unindent
+
 2017.04.07
 - fix: incorrect icon fname gives TypeError on start
 
