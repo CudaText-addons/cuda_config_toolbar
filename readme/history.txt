@@ -1,5 +1,6 @@
 
-2017.04.28
+2017.04.29
++ adapt to Cudatext 1.8.3 (must update Cud)
 + add 2 icons for indent/unindent
 
 2017.04.07

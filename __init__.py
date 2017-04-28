@@ -2,8 +2,23 @@ import os
 from cudatext import *
 from . import opt
 from . import dlg
+import cudatext_cmd as cmds
 
 icons_default = '(default)'
+icons_filenames = {
+  cmds.cCommand_ClipboardCopy: 'e_copy',
+  cmds.cCommand_ClipboardCut: 'e_cut',
+  cmds.cCommand_ClipboardPaste: 'e_paste',
+  cmds.cCommand_Undo: 'e_undo',
+  cmds.cCommand_Redo: 'e_redo',
+  cmds.cmd_FileNew: 'f_new',
+  cmds.cmd_FileOpen: 'f_open',
+  cmds.cmd_FileSave: 'f_save',
+  cmds.cCommand_TextIndent: 'indent',
+  cmds.cCommand_TextUnindent: 'unindent',
+  cmds.cCommand_ToggleMinimap: 'map',
+  cmds.cCommand_ToggleUnprinted: 'unpri',
+}
 
 
 try:
@@ -25,16 +40,14 @@ def do_load_icons(name):
 
     items = toolbar_proc('top', TOOLBAR_ENUM)
     for (i, item) in enumerate(items):
-        name = item['cap']
         cmd = item['cmd']
-        if not name:
-            continue
-        if cmd: #user-added item
+        try:
+            cmd_code = int(cmd)
+        except:
             continue
 
-        filename = os.path.join(dir, name+'.png')
+        filename = os.path.join(dir, icons_filenames.get(cmd_code, '-')+'.png')
         if not os.path.isfile(filename):
-            print('Cannot find icon:', filename)
             continue
         imageindex = toolbar_proc('top', TOOLBAR_ADD_ICON, text=filename)
         if imageindex is None:
