@@ -31,7 +31,12 @@ def dialog_buttons(buttons, chk_clear, is_submenu=False):
     val_icon = ''
 
     while True:
-        items = ['(menu) '+item['cap'] if item['cmd']=='menu' else item['cap'] for item in buttons]
+        items = [
+            '(menu) '+item['cap'] if item['cmd']=='menu' else
+            '(icon) '+item['hint'] if item['cap']=='' else
+            item['cap']
+            for item in buttons
+            ]
         items = ['---' if s=='-' else '(icon)' if s=='' else s for s in items]
         items = '\t'.join(items)
 

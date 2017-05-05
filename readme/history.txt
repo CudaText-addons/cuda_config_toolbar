@@ -1,4 +1,7 @@
 
+2017.05.05
++ show "(icon) tooltip" for buttons w/o caption
+
 2017.04.29
 + adapt to Cudatext 1.8.3 (must update Cud)
 + add 2 icons for indent/unindent
