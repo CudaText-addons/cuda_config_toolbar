@@ -1,4 +1,7 @@
 
+2017.07.20
++ avoid using deprecated APIs
+
 2017.05.05
 + show "(icon) tooltip" for buttons w/o caption
 

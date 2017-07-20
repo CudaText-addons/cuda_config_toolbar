@@ -36,7 +36,9 @@ def do_load_icons(name):
 
     print('Loading icons:', name)
     s = name.split('_')[1].split('x')
-    toolbar_proc('top', TOOLBAR_SET_ICON_SIZES, index=int(s[0]), index2=int(s[1]))
+
+    imglist = toolbar_proc('top', TOOLBAR_GET_IMAGELIST)
+    imagelist_proc(imglist, IMAGELIST_SET_SIZE, (s[0], s[1]))
 
     items = toolbar_proc('top', TOOLBAR_ENUM)
     for (i, item) in enumerate(items):
@@ -49,7 +51,7 @@ def do_load_icons(name):
         filename = os.path.join(dir, icons_filenames.get(cmd_code, '-')+'.png')
         if not os.path.isfile(filename):
             continue
-        imageindex = toolbar_proc('top', TOOLBAR_ADD_ICON, text=filename)
+        imageindex = imagelist_proc(imglist, IMAGELIST_ADD, filename)
         if imageindex is None:
             print('Cannot load icon:', filename)
             continue
@@ -72,11 +74,13 @@ def do_load_submenu(id_menu, items):
 def do_load_buttons(buttons):
 
     print('Loading toolbar config')
+    imglist = toolbar_proc('top', TOOLBAR_GET_IMAGELIST)
+
     for (index, b) in enumerate(buttons):
         fn = b['icon']
         imageindex = None
         if fn:
-            imageindex = toolbar_proc('top', TOOLBAR_ADD_ICON, text=fn)
+            imageindex = imagelist_proc(imglist, IMAGELIST_ADD, fn)
         if imageindex is None:
             imageindex = -1
 
