@@ -22,7 +22,9 @@ class DialogButtons:
         items = ['---' if s=='-' else '(icon)' if s=='' else s for s in items]
         items = '\t'.join(items)
 
+        n = self.get_index()
         dlg_proc(self.h_main, DLG_CTL_PROP_SET, name='list', prop={'items': items} )
+        self.set_index(n)
 
 
     def show(self):
@@ -42,6 +44,41 @@ class DialogButtons:
     def callback_main_cancel(self, id_dlg, id_ctl, data='', info=''):
 
         dlg_proc(id_dlg, DLG_HIDE)
+
+
+    def callback_main_del(self, id_dlg, id_ctl, data='', info=''):
+
+        index = self.get_index()
+        if index<0: return
+        del self.buttons[index]
+        self.update_list()
+
+
+    def callback_main_add(self, id_dlg, id_ctl, data='', info=''):
+
+        d = DialogProps()
+        d.show()
+        if d.show_result:
+            b = {}
+            b['cap'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_cap')['val']
+            b['hint'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_tooltip')['val']
+            b['cmd'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_cmd')['val']
+            b['icon'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_icon')['val']
+            self.buttons.append(b)
+            self.update_list()
+
+        dlg_proc(d.h_dlg, DLG_FREE)
+
+
+    def callback_main_add_sep(self, id_dlg, id_ctl, data='', info=''):
+
+        b = {}
+        b['cap'] = '-'
+        b['hint'] = ''
+        b['cmd'] = ''
+        b['icon'] = ''
+        self.buttons.append(b)
+        self.update_list()
 
 
     def callback_main_edit(self, id_dlg, id_ctl, data='', info=''):
@@ -107,6 +144,33 @@ class DialogButtons:
           'y': 10,
           'cap': 'Edit item...',
           'on_change': self.callback_main_edit,
+           } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_add',
+          'x': 220,
+          'w': 200,
+          'y': 40,
+          'cap': 'Add item...',
+          'on_change': self.callback_main_add,
+           } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_add_sep',
+          'x': 220,
+          'w': 200,
+          'y': 70,
+          'cap': 'Add separator',
+          'on_change': self.callback_main_add_sep,
+           } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_del',
+          'x': 220,
+          'w': 200,
+          'y': 130,
+          'cap': 'Delete item',
+          'on_change': self.callback_main_del,
            } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
