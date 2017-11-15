@@ -2,7 +2,6 @@ import os
 import json
 import cudatext as app
 
-blocked = None
 options = {
     'icon_set': '',
     'sub': [],

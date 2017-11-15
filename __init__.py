@@ -95,7 +95,6 @@ def do_load_buttons(buttons):
 class Command:
 
     def do_buttons(self):
-        if opt.blocked: return
 
         d = dlg.DialogButtons()
         d.buttons = list(opt.options['sub']) #copy object
@@ -109,7 +108,6 @@ class Command:
 
 
     def do_icons(self):
-        if opt.blocked: return
 
         dirs = os.listdir(opt.dir_icon_sets)
         if not dirs:
@@ -128,8 +126,8 @@ class Command:
             return
         do_load_icons(name)
 
+
     def on_start(self, ed_self):
-        if opt.blocked: return
 
         if os.path.isfile(opt.fn_config):
             opt.do_load_ops()
