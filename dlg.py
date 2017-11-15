@@ -111,7 +111,15 @@ class DialogButtons:
         index = self.get_index()
         if index<0: return
 
+        delta = 30
+        prop = dlg_proc(id_dlg, DLG_PROP_GET)
+
         d = DialogButtons()
+        dlg_proc(d.h_main, DLG_PROP_SET, prop={
+            'x': prop['x']+delta,
+            'y': prop['y']+delta
+            })
+
         d.buttons = list(self.buttons[index].get('sub', []))
         d.is_submenu = True
         d.show()
@@ -397,6 +405,7 @@ class DialogProps:
           'y': 180,
           'w': 100,
           'cap': 'OK',
+          'props': True,
           'on_change': self.call_ok,
           } )
 
