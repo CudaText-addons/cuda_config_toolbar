@@ -14,11 +14,6 @@ dir_icon_sets = os.path.join(os.path.dirname(__file__), 'icons')
 dir_icons = ''
 
 
-if app.app_api_version()<'1.0.173':
-    app.msg_box('Plugin "Config Toolbar" needs newer CudaText', app.MB_OK)
-    blocked = True
-
-
 def do_load_ops():
     global fn_config
     global options

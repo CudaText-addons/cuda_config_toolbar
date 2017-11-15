@@ -21,14 +21,6 @@ icons_filenames = {
 }
 
 
-try:
-    import cuda_config_icons
-    msg_box('Plugin "Config Toolbar" is new one, and "Config Icons" is old one - you must delete "Config Icons" plugin, its functions are included', MB_OK)
-except ImportError:
-    pass
-
-
-
 def do_load_icons(name):
 
     dir = os.path.join(opt.dir_icon_sets, name)
