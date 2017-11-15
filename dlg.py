@@ -292,6 +292,12 @@ class DialogProps:
 
     def call_ok(self, id_dlg, id_ctl, data='', info=''):
 
+        prop1 = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='edit_cap')
+        prop2 = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='edit_icon')
+        if not prop1['val'] and not prop2['val']:
+            msg_box('Button must have non-empty caption and/or icon', MB_OK+MB_ICONWARNING)
+            return
+
         self.show_result = True
         dlg_proc(id_dlg, DLG_HIDE)
 
