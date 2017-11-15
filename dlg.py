@@ -31,6 +31,9 @@ class DialogButtons:
 
         self.update_list()
         self.set_index(0)
+
+        dlg_proc(self.h_main, DLG_CTL_PROP_SET, name='chk_clear', prop={'val': self.clear_default})
+
         dlg_proc(self.h_main, DLG_CTL_FOCUS, name='list')
         dlg_proc(self.h_main, DLG_SHOW_MODAL)
 
@@ -38,6 +41,10 @@ class DialogButtons:
     def call_ok(self, id_dlg, id_ctl, data='', info=''):
 
         self.show_result = True
+
+        p = dlg_proc(self.h_main, DLG_CTL_PROP_GET, name='chk_clear')
+        self.clear_default = p['val']=='1'
+
         dlg_proc(id_dlg, DLG_HIDE)
 
 
@@ -97,6 +104,20 @@ class DialogButtons:
         b['icon'] = ''
         self.buttons.append(b)
         self.update_list()
+
+
+    def call_edit_sub(self, id_dlg, id_ctl, data='', info=''):
+
+        index = self.get_index()
+        if index<0: return
+
+        d = DialogButtons()
+        d.buttons = list(self.buttons[index].get('sub', []))
+        d.is_submenu = True
+        d.show()
+        if d.show_result:
+            self.buttons[index]['sub'] = list(d.buttons)
+        dlg_proc(d.h_main, DLG_FREE)
 
 
     def call_edit(self, id_dlg, id_ctl, data='', info=''):
@@ -165,10 +186,19 @@ class DialogButtons:
            } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_add',
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_edit_sub',
           'x': 220,
           'w': 200,
           'y': 40,
+          'cap': 'Edit sub-menu...',
+          'on_change': self.call_edit_sub,
+           } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_add',
+          'x': 220,
+          'w': 200,
+          'y': 70,
           'cap': 'Add item...',
           'on_change': self.call_add,
            } )
@@ -177,7 +207,7 @@ class DialogButtons:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_add_sep',
           'x': 220,
           'w': 200,
-          'y': 70,
+          'y': 100,
           'cap': 'Add separator',
           'on_change': self.call_add_sep,
            } )
@@ -186,7 +216,7 @@ class DialogButtons:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_del',
           'x': 220,
           'w': 200,
-          'y': 130,
+          'y': 160,
           'cap': 'Delete item',
           'on_change': self.call_del,
            } )
@@ -195,7 +225,7 @@ class DialogButtons:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_move_up',
           'x': 220,
           'w': 200,
-          'y': 190,
+          'y': 220,
           'cap': 'Move up',
           'on_change': self.call_move_up,
            } )
@@ -204,9 +234,17 @@ class DialogButtons:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_move_down',
           'x': 220,
           'w': 200,
-          'y': 220,
+          'y': 250,
           'cap': 'Move down',
           'on_change': self.call_move_down,
+           } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'check')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_clear',
+          'x': 220,
+          'w': 200,
+          'y': 390,
+          'cap': 'Delete default buttons',
            } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
@@ -375,32 +413,8 @@ class DialogProps:
 
 
 
-def _dialog_buttons(buttons, chk_clear, is_submenu=False):
+#, c1.join(['type=button', 'pos=400,270,600,0', 'cap=&Config selected menu...', 'en='+b_sel_menu])
+#, c1.join(['type=check', 'pos=200,330,600,0', 'cap=Remo&ve standard buttons', 'val='+b_clear, 'en='+b_en_clear])
 
-        b_sel = '1' if val_index>=0 else '0'
-        b_sel_menu = '1' if val_index>=0 and buttons[val_index]['cmd']=='menu' else '0'
-        b_en_up = '1' if val_index>0 else '0'
-        b_en_down = '1' if (val_index>=0 and val_index<len(buttons)-1) else '0'
-        b_clear = '1' if chk_clear else '0'
-        b_en_clear = '1' if not is_submenu else '0'
-
-            #, c1.join(['type=button', 'pos=400,270,600,0', 'cap=&Config selected menu...', 'en='+b_sel_menu])
-            #, c1.join(['type=check', 'pos=200,330,600,0', 'cap=Remo&ve standard buttons', 'val='+b_clear, 'en='+b_en_clear])
-
-            #if not val_cap and not val_icon:
-            #    msg_box('Button needs caption, or icon, or caption+icon', MB_OK+MB_ICONWARNING)
-
-#        if res==RES_MOVE_UP:
-#            buttons.insert(val_index-1, buttons.pop(val_index))
-#            val_index -= 1
-#
-#        if res==RES_MOVE_DOWN:
-#            buttons.insert(val_index+1, buttons.pop(val_index))
-#            val_index += 1
-
-#        if res==RES_CONFIG_SUBMENU:
-#            subitems = buttons[val_index].get('sub', [])
-#            res = dialog_buttons(subitems, False, True)
-#            if res:
-#                buttons[val_index]['sub'] = subitems
-#
+#if not val_cap and not val_icon:
+#    msg_box('Button needs caption, or icon, or caption+icon', MB_OK+MB_ICONWARNING)
