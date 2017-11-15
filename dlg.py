@@ -25,6 +25,18 @@ class DialogButtons:
         n = self.get_index()
         dlg_proc(self.h_main, DLG_CTL_PROP_SET, name='list', prop={'items': items} )
         self.set_index(n)
+        self.update_en()
+
+
+    def update_en(self):
+
+        n = self.get_index()
+        dlg_proc(self.h_main, DLG_CTL_PROP_SET, name='btn_del', prop={'en': n>=0})
+        dlg_proc(self.h_main, DLG_CTL_PROP_SET, name='btn_edit', prop={'en': n>=0 and self.buttons[n]['cap']!='-' })
+        dlg_proc(self.h_main, DLG_CTL_PROP_SET, name='btn_edit_sub', prop={'en': n>=0 and self.buttons[n]['cmd']=='menu' })
+
+        dlg_proc(self.h_main, DLG_CTL_PROP_SET, name='btn_move_up', prop={'en': n>0})
+        dlg_proc(self.h_main, DLG_CTL_PROP_SET, name='btn_move_down', prop={'en': n<self.get_count()-1 })
 
 
     def show(self):
@@ -151,6 +163,11 @@ class DialogButtons:
         dlg_proc(d.h_dlg, DLG_FREE)
 
 
+    def call_list_change(self, id_dlg, id_ctl, data='', info=''):
+
+        self.update_en()
+
+
     def get_index(self):
 
         p = dlg_proc(self.h_main, DLG_CTL_PROP_GET, name='list')
@@ -182,6 +199,8 @@ class DialogButtons:
           'w': 200,
           'align': ALIGN_LEFT,
           'sp_a': 10,
+          'act': True,
+          'on_change': self.call_list_change,
            } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
