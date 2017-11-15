@@ -44,7 +44,10 @@ class DialogButtons:
         self.update_list()
         self.set_index(0)
 
-        dlg_proc(self.h_main, DLG_CTL_PROP_SET, name='chk_clear', prop={'val': self.clear_default})
+        dlg_proc(self.h_main, DLG_CTL_PROP_SET, name='chk_clear', prop={
+            'val': self.clear_default,
+            'en': not self.is_submenu,
+            })
 
         dlg_proc(self.h_main, DLG_CTL_FOCUS, name='list')
         dlg_proc(self.h_main, DLG_SHOW_MODAL)
