@@ -106,11 +106,11 @@ class Command:
         if opt.blocked: return
 
         d = dlg.DialogButtons()
-        d.buttons = opt.options['sub']
+        d.buttons = list(opt.options['sub']) #copy object
         d.clear_default = opt.options['clear']
         d.show()
         if d.show_result:
-            opt.options['sub'] = d.buttons
+            opt.options['sub'] = list(d.buttons) #copy back
             opt.options['clear'] = d.clear_default
             opt.do_save_ops()
             msg_box('Toolbar config will be applied after CudaText restart', MB_OK+MB_ICONINFO)

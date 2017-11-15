@@ -35,18 +35,36 @@ class DialogButtons:
         dlg_proc(self.h_main, DLG_SHOW_MODAL)
 
 
-    def callback_main_ok(self, id_dlg, id_ctl, data='', info=''):
+    def call_ok(self, id_dlg, id_ctl, data='', info=''):
 
         self.show_result = True
         dlg_proc(id_dlg, DLG_HIDE)
 
 
-    def callback_main_cancel(self, id_dlg, id_ctl, data='', info=''):
+    def call_cancel(self, id_dlg, id_ctl, data='', info=''):
 
         dlg_proc(id_dlg, DLG_HIDE)
 
 
-    def callback_main_del(self, id_dlg, id_ctl, data='', info=''):
+    def call_move_up(self, id_dlg, id_ctl, data='', info=''):
+
+        index = self.get_index()
+        if index<1: return
+        self.buttons.insert(index-1, self.buttons.pop(index))
+        self.set_index(index-1)
+        self.update_list()
+
+
+    def call_move_down(self, id_dlg, id_ctl, data='', info=''):
+
+        index = self.get_index()
+        if index<0 or index>=self.get_count(): return
+        self.buttons.insert(index+1, self.buttons.pop(index))
+        self.set_index(index+1)
+        self.update_list()
+
+
+    def call_del(self, id_dlg, id_ctl, data='', info=''):
 
         index = self.get_index()
         if index<0: return
@@ -54,7 +72,7 @@ class DialogButtons:
         self.update_list()
 
 
-    def callback_main_add(self, id_dlg, id_ctl, data='', info=''):
+    def call_add(self, id_dlg, id_ctl, data='', info=''):
 
         d = DialogProps()
         d.show()
@@ -70,7 +88,7 @@ class DialogButtons:
         dlg_proc(d.h_dlg, DLG_FREE)
 
 
-    def callback_main_add_sep(self, id_dlg, id_ctl, data='', info=''):
+    def call_add_sep(self, id_dlg, id_ctl, data='', info=''):
 
         b = {}
         b['cap'] = '-'
@@ -81,7 +99,7 @@ class DialogButtons:
         self.update_list()
 
 
-    def callback_main_edit(self, id_dlg, id_ctl, data='', info=''):
+    def call_edit(self, id_dlg, id_ctl, data='', info=''):
 
         index = self.get_index()
         if index<0: return
@@ -143,7 +161,7 @@ class DialogButtons:
           'w': 200,
           'y': 10,
           'cap': 'Edit item...',
-          'on_change': self.callback_main_edit,
+          'on_change': self.call_edit,
            } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
@@ -152,7 +170,7 @@ class DialogButtons:
           'w': 200,
           'y': 40,
           'cap': 'Add item...',
-          'on_change': self.callback_main_add,
+          'on_change': self.call_add,
            } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
@@ -161,7 +179,7 @@ class DialogButtons:
           'w': 200,
           'y': 70,
           'cap': 'Add separator',
-          'on_change': self.callback_main_add_sep,
+          'on_change': self.call_add_sep,
            } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
@@ -170,7 +188,25 @@ class DialogButtons:
           'w': 200,
           'y': 130,
           'cap': 'Delete item',
-          'on_change': self.callback_main_del,
+          'on_change': self.call_del,
+           } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_move_up',
+          'x': 220,
+          'w': 200,
+          'y': 190,
+          'cap': 'Move up',
+          'on_change': self.call_move_up,
+           } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_move_down',
+          'x': 220,
+          'w': 200,
+          'y': 220,
+          'cap': 'Move down',
+          'on_change': self.call_move_down,
            } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
@@ -179,7 +215,7 @@ class DialogButtons:
           'w': 200,
           'y': 430,
           'cap': 'OK',
-          'on_change': self.callback_main_ok,
+          'on_change': self.call_ok,
            } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
@@ -188,7 +224,7 @@ class DialogButtons:
           'w': 200,
           'y': 460,
           'cap': 'Cancel',
-          'on_change': self.callback_main_cancel,
+          'on_change': self.call_cancel,
            } )
 
         self.h_main = h
@@ -208,18 +244,18 @@ class DialogProps:
         dlg_proc(self.h_dlg, DLG_SHOW_MODAL)
 
 
-    def callback_props_ok(self, id_dlg, id_ctl, data='', info=''):
+    def call_ok(self, id_dlg, id_ctl, data='', info=''):
 
         self.show_result = True
         dlg_proc(id_dlg, DLG_HIDE)
 
 
-    def callback_props_cancel(self, id_dlg, id_ctl, data='', info=''):
+    def call_cancel(self, id_dlg, id_ctl, data='', info=''):
 
         dlg_proc(id_dlg, DLG_HIDE)
 
 
-    def callback_props_cmd(self, id_dlg, id_ctl, data='', info=''):
+    def call_cmd(self, id_dlg, id_ctl, data='', info=''):
 
         s = dlg_commands(COMMANDS_USUAL+COMMANDS_PLUGINS)
         if s:
@@ -227,12 +263,12 @@ class DialogProps:
             dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='edit_cmd', prop={'val': s})
 
 
-    def callback_props_menu(self, id_dlg, id_ctl, data='', info=''):
+    def call_menu(self, id_dlg, id_ctl, data='', info=''):
 
         dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='edit_cmd', prop={'val': 'menu'})
 
 
-    def callback_props_icon(self, id_dlg, id_ctl, data='', info=''):
+    def call_icon(self, id_dlg, id_ctl, data='', info=''):
 
         s = dlg_file(True, '', opt.dir_icons, 'Image files|*.png;*.bmp')
         if s:
@@ -281,7 +317,7 @@ class DialogProps:
           'y': 70,
           'w': 115,
           'cap': 'Command...',
-          'on_change': self.callback_props_cmd,
+          'on_change': self.call_cmd,
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
@@ -290,7 +326,7 @@ class DialogProps:
           'y': 100,
           'w': 115,
           'cap': 'Sub-menu',
-          'on_change': self.callback_props_menu,
+          'on_change': self.call_menu,
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
@@ -307,7 +343,7 @@ class DialogProps:
           'y': 130,
           'w': 115,
           'cap': 'Icon...',
-          'on_change': self.callback_props_icon,
+          'on_change': self.call_icon,
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
@@ -323,7 +359,7 @@ class DialogProps:
           'y': 180,
           'w': 100,
           'cap': 'OK',
-          'on_change': self.callback_props_ok,
+          'on_change': self.call_ok,
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
@@ -332,7 +368,7 @@ class DialogProps:
           'y': 180,
           'w': 100,
           'cap': 'Cancel',
-          'on_change': self.callback_props_cancel,
+          'on_change': self.call_cancel,
           } )
 
         self.h_dlg = h
@@ -341,8 +377,6 @@ class DialogProps:
 
 def _dialog_buttons(buttons, chk_clear, is_submenu=False):
 
-    while True:
-
         b_sel = '1' if val_index>=0 else '0'
         b_sel_menu = '1' if val_index>=0 and buttons[val_index]['cmd']=='menu' else '0'
         b_en_up = '1' if val_index>0 else '0'
@@ -350,22 +384,11 @@ def _dialog_buttons(buttons, chk_clear, is_submenu=False):
         b_clear = '1' if chk_clear else '0'
         b_en_clear = '1' if not is_submenu else '0'
 
-            #, c1.join(['type=button', 'pos=200,210,394,0', 'cap=Add &button'])
-            #, c1.join(['type=button', 'pos=200,240,394,0', 'cap=Add &separator'])
-            #, c1.join(['type=button', 'pos=400,210,600,0', 'cap=Chan&ge selected item', 'en='+b_sel])
-            #, c1.join(['type=button', 'pos=400,240,600,0', 'cap=&Delete selected item', 'en='+b_sel])
             #, c1.join(['type=button', 'pos=400,270,600,0', 'cap=&Config selected menu...', 'en='+b_sel_menu])
             #, c1.join(['type=check', 'pos=200,330,600,0', 'cap=Remo&ve standard buttons', 'val='+b_clear, 'en='+b_en_clear])
 
             #if not val_cap and not val_icon:
             #    msg_box('Button needs caption, or icon, or caption+icon', MB_OK+MB_ICONWARNING)
-            #    continue
-            #d = {'cap': val_cap, 'hint': val_hint, 'cmd': val_cmd, 'icon': val_icon}
-            #buttons.append(d)
-
-        #if res==RES_B_ADDSEP:
-        #    d = {'cap': '-', 'hint': '', 'cmd': '', 'icon': ''}
-        #    buttons.append(d)
 
 #        if res==RES_MOVE_UP:
 #            buttons.insert(val_index-1, buttons.pop(val_index))
