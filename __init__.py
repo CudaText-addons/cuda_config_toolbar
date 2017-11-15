@@ -109,11 +109,11 @@ class Command:
         d.buttons = opt.options['sub']
         d.clear_default = opt.options['clear']
         d.show()
-        if not d.show_result: return
-        opt.options['sub'] = d.buttons
-        opt.options['clear'] = d.clear_default
-        opt.do_save_ops()
-        msg_box('Toolbar config will be applied after CudaText restart', MB_OK+MB_ICONINFO)
+        if d.show_result:
+            opt.options['sub'] = d.buttons
+            opt.options['clear'] = d.clear_default
+            opt.do_save_ops()
+            msg_box('Toolbar config will be applied after CudaText restart', MB_OK+MB_ICONINFO)
 
 
     def do_icons(self):
