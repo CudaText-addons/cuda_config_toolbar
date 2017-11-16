@@ -1,4 +1,7 @@
 
+2017.11.16
+* changed "config toolbar" buttons layout
+
 2017.11.15
 + rewritten dialogs to use new API dlg_proc
 + split "Config toolbar" big dialog to 2 separate dialogs

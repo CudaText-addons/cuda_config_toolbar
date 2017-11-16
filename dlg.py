@@ -207,28 +207,10 @@ class DialogButtons:
            } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_edit',
-          'x': 220,
-          'w': 200,
-          'y': 10,
-          'cap': 'Edit item...',
-          'on_change': self.call_edit,
-           } )
-
-        n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_edit_sub',
-          'x': 220,
-          'w': 200,
-          'y': 40,
-          'cap': 'Edit sub-menu...',
-          'on_change': self.call_edit_sub,
-           } )
-
-        n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_add',
           'x': 220,
           'w': 200,
-          'y': 70,
+          'y': 10,
           'cap': 'Add item...',
           'on_change': self.call_add,
            } )
@@ -237,9 +219,27 @@ class DialogButtons:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_add_sep',
           'x': 220,
           'w': 200,
-          'y': 100,
+          'y': 40,
           'cap': 'Add separator',
           'on_change': self.call_add_sep,
+           } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_edit',
+          'x': 220,
+          'w': 200,
+          'y': 70,
+          'cap': 'Edit item...',
+          'on_change': self.call_edit,
+           } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_edit_sub',
+          'x': 220,
+          'w': 200,
+          'y': 100,
+          'cap': 'Edit sub-menu...',
+          'on_change': self.call_edit_sub,
            } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
