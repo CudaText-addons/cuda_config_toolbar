@@ -103,7 +103,7 @@ class DialogButtons:
             b['cap'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_cap')['val']
             b['hint'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_tooltip')['val']
             b['cmd'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_cmd')['val']
-            b['icon'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_icon')['val']
+            b['icon'] = opt.encode_fn( dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_icon')['val'] )
             self.buttons.append(b)
             self.update_list()
 
@@ -153,14 +153,14 @@ class DialogButtons:
         dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_cap', prop={'val': b['cap']})
         dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_tooltip', prop={'val': b['hint']})
         dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_cmd', prop={'val': b['cmd']})
-        dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_icon', prop={'val': b['icon']})
+        dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_icon', prop={'val': opt.decode_fn(b['icon']) })
 
         d.show()
         if d.show_result:
             b['cap'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_cap')['val']
             b['hint'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_tooltip')['val']
             b['cmd'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_cmd')['val']
-            b['icon'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_icon')['val']
+            b['icon'] = opt.encode_fn( dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_icon')['val'] )
             self.update_list()
 
         dlg_proc(d.h_dlg, DLG_FREE)

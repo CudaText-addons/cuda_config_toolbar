@@ -15,13 +15,13 @@ dir_settings = app.app_path(app.APP_DIR_SETTINGS)
 macro_settings = '{op}'
 
 
-def _encode_fn(fn):
+def encode_fn(fn):
     s = fn
     if s.startswith(dir_settings):
         s = macro_settings+s[len(dir_settings):]
     return s
 
-def _decode_fn(fn):
+def decode_fn(fn):
     s = fn
     if s.startswith(macro_settings):
         s = dir_settings + s[len(macro_settings):]
@@ -35,7 +35,7 @@ def do_load_ops():
 
     with open(fn_config, 'r', encoding='utf8') as f:
         options = json.load(f)
-        dir_icons = _decode_fn(options.get('dir_icons', ''))
+        dir_icons = decode_fn(options.get('dir_icons', ''))
 
 
 def do_save_ops():
@@ -43,6 +43,6 @@ def do_save_ops():
     global options
     global dir_icons
 
-    options['dir_icons'] = _encode_fn(dir_icons)
+    options['dir_icons'] = encode_fn(dir_icons)
     with open(fn_config, 'w', encoding='utf8') as f:
         f.write(json.dumps(options, indent=2))

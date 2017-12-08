@@ -1,6 +1,6 @@
 
 2017.12.08
-+ config file saves folder of last selected icons in portable way
++ config file saves paths in portable way, with macro {op} = settings dir of CudaText
 
 2017.11.16
 * changed "config toolbar" buttons layout

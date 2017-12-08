@@ -69,7 +69,7 @@ def do_load_buttons(buttons):
     imglist = toolbar_proc('top', TOOLBAR_GET_IMAGELIST)
 
     for (index, b) in enumerate(buttons):
-        fn = b['icon']
+        fn = opt.decode_fn(b['icon'])
         imageindex = None
         if fn:
             imageindex = imagelist_proc(imglist, IMAGELIST_ADD, fn)
