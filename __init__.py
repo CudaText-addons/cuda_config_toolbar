@@ -134,8 +134,13 @@ class Command:
             if icons and icons!=icons_default:
                 do_load_icons(icons)
 
-            #if opt.options.get('clear', False):
-            #    toolbar_proc('top', TOOLBAR_DELETE_ALL)
+            hide_list = opt.hide.split(' ')
+            hide_list = [i for i in hide_list if i]
+            if hide_list:
+                hide_list = reversed(sorted(list(map(int, hide_list))))
+                for i in hide_list:
+                    toolbar_proc('top', TOOLBAR_DELETE_BUTTON, index=i)
+
             buttons = opt.options.get('sub', [])
             if buttons:
                 do_load_buttons(buttons)
