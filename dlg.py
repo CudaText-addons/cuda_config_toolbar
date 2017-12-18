@@ -6,7 +6,6 @@ from . import opt
 class DialogButtons:
 
     buttons = []
-    clear_default = False
     is_submenu = False
     h_main = None
     show_result = False
@@ -44,8 +43,7 @@ class DialogButtons:
         self.update_list()
         self.set_index(0)
 
-        dlg_proc(self.h_main, DLG_CTL_PROP_SET, name='chk_clear', prop={
-            'val': self.clear_default,
+        dlg_proc(self.h_main, DLG_CTL_PROP_SET, name='btn_no_def', prop={
             'en': not self.is_submenu,
             })
 
@@ -56,10 +54,6 @@ class DialogButtons:
     def call_ok(self, id_dlg, id_ctl, data='', info=''):
 
         self.show_result = True
-
-        p = dlg_proc(self.h_main, DLG_CTL_PROP_GET, name='chk_clear')
-        self.clear_default = p['val']=='1'
-
         dlg_proc(id_dlg, DLG_HIDE)
 
 
@@ -84,6 +78,43 @@ class DialogButtons:
         self.buttons.insert(index+1, self.buttons.pop(index))
         self.set_index(index+1)
         self.update_list()
+
+
+    def call_no_def(self, id_dlg, id_ctl, data='', info=''):
+
+        text = '\n'.join([
+          'type=check\1pos=10,10,200,0\1cap=Create new tab\1val='+('1' if opt.hide_new else '0'),
+          'type=check\1pos=10,40,200,0\1cap=Open file\1val='+('1' if opt.hide_open else '0'),
+          'type=check\1pos=10,70,200,0\1cap=Save file\1val='+('1' if opt.hide_save else '0'),
+          'type=check\1pos=10,100,200,0\1cap=Cut\1val='+('1' if opt.hide_cut else '0'),
+          'type=check\1pos=10,130,200,0\1cap=Copy\1val='+('1' if opt.hide_copy else '0'),
+          'type=check\1pos=10,160,200,0\1cap=Paste\1val='+('1' if opt.hide_paste else '0'),
+          'type=check\1pos=10,190,200,0\1cap=Undo\1val='+('1' if opt.hide_undo else '0'),
+          'type=check\1pos=10,220,200,0\1cap=Redo\1val='+('1' if opt.hide_redo else '0'),
+          'type=check\1pos=10,250,200,0\1cap=Toggle unprinted chars\1val='+('1' if opt.hide_unpri else '0'),
+          'type=check\1pos=10,280,200,0\1cap=Toggle minimap\1val='+('1' if opt.hide_minimap else '0'),
+          'type=check\1pos=10,310,200,0\1cap=Indent block\1val='+('1' if opt.hide_indent else '0'),
+          'type=check\1pos=10,340,200,0\1cap=Unindent block\1val='+('1' if opt.hide_unindent else '0'),
+          'type=button\1pos=130,400,210,0\1cap=OK\1props=1',
+          'type=button\1pos=220,400,300,0\1cap=Cancel',
+          ])
+
+        res = dlg_custom('Hide default buttons', 310, 435, text, get_dict=True)
+        if not res: return
+
+        opt.hide_new = res[0]=='1'
+        opt.hide_open = res[1]=='1'
+        opt.hide_save = res[2]=='1'
+        opt.hide_cut = res[3]=='1'
+        opt.hide_copy = res[4]=='1'
+        opt.hide_paste = res[5]=='1'
+        opt.hide_undo = res[6]=='1'
+        opt.hide_redo = res[7]=='1'
+        opt.hide_unpri = res[8]=='1'
+        opt.hide_minimap = res[9]=='1'
+        opt.hide_indent = res[10]=='1'
+        opt.hide_unindent = res[11]=='1'
+        opt.do_save_ops()
 
 
     def call_del(self, id_dlg, id_ctl, data='', info=''):
@@ -269,12 +300,13 @@ class DialogButtons:
           'on_change': self.call_move_down,
            } )
 
-        n=dlg_proc(h, DLG_CTL_ADD, 'check')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_clear',
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_no_def',
           'x': 220,
           'w': 200,
           'y': 390,
-          'cap': 'Delete default buttons',
+          'cap': 'Hide default buttons...',
+          'on_change': self.call_no_def,
            } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
