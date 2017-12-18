@@ -1,4 +1,7 @@
 
+2017.12.18
++ change option "delete default buttons" to option - list of buttons indexes to hide. can hide only some btns.
+
 2017.12.08
 + config file saves paths in portable way, with macro {op} = settings dir of CudaText
 
