@@ -98,11 +98,9 @@ class Command:
 
         d = dlg.DialogButtons()
         d.buttons = list(opt.options['sub']) #copy object
-        d.clear_default = opt.options['clear']
         d.show()
         if d.show_result:
             opt.options['sub'] = list(d.buttons) #copy back
-            opt.options['clear'] = d.clear_default
             opt.do_save_ops()
             msg_box('Toolbar config will be applied after CudaText restart', MB_OK+MB_ICONINFO)
 
@@ -136,8 +134,8 @@ class Command:
             if icons and icons!=icons_default:
                 do_load_icons(icons)
 
-            if opt.options.get('clear', False):
-                toolbar_proc('top', TOOLBAR_DELETE_ALL)
+            #if opt.options.get('clear', False):
+            #    toolbar_proc('top', TOOLBAR_DELETE_ALL)
             buttons = opt.options.get('sub', [])
             if buttons:
                 do_load_buttons(buttons)
