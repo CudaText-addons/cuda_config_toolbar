@@ -48,6 +48,7 @@ class DialogButtons:
             })
 
         dlg_proc(self.h_main, DLG_CTL_FOCUS, name='list')
+        dlg_proc(self.h_main, DLG_SCALE)
         dlg_proc(self.h_main, DLG_SHOW_MODAL)
 
 
@@ -312,6 +313,7 @@ class DialogProps:
 
     def show(self):
 
+        dlg_proc(self.h_dlg, DLG_SCALE)
         dlg_proc(self.h_dlg, DLG_SHOW_MODAL)
 
 
