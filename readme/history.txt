@@ -1,4 +1,7 @@
 
+2017.12.26
++ add: support high-dpi in Win10
+
 2017.12.18
 + change option "delete default buttons" to option - list of buttons indexes to hide. can hide only some btns.
 
