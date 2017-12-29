@@ -4,6 +4,8 @@ from . import opt
 from . import dlg
 import cudatext_cmd as cmds
 
+is_new_api = app_api_version()>='1.0.211'
+
 icons_default = '(default)'
 icons_filenames = {
   cmds.cCommand_ClipboardCopy: 'e_copy',
@@ -48,6 +50,9 @@ def do_load_icons(name):
             print('Cannot load icon:', filename)
             continue
         toolbar_proc('top', TOOLBAR_SET_BUTTON, index=i, index2=imageindex)
+
+    if is_new_api:
+        toolbar_proc('top', TOOLBAR_UPDATE)
 
 
 def do_load_submenu(id_menu, items):
