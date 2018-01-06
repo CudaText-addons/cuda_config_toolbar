@@ -6,13 +6,13 @@ Many icon sets are shipped with plugin.
 
 2) Config additional buttons (to standard buttons).
 For additional buttons you can customize: 
-- caption, 
-- tooltip, 
-- icon file (size can be any, can mismatch icon set), 
-- command: usual CudaText commands and plugin commands allowed, you can choose both in menu (like Commands dialog)
+- caption 
+- tooltip 
+- icon file (size can be any, can mismatch current icon set) 
+- command: usual CudaText commands + plugin commands, you can choose both in menu (like CudaText Commands dialog).
 
-Note: buttons can have caption only, or icon only, or caption+icon.
-Note: buttons cannot be added during configuring session, they will add on CudaText start.
+Note: buttons can have caption, or icon, or caption+icon.
+Note: buttons cannot be added during configuring session, they will be added after CudaText restart.
 
 
 Author: Alexey T.

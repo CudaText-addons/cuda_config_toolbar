@@ -3,7 +3,8 @@
 - avoid deprecated APIs
 
 2017.12.29
-+ add: Google material design icons. 4 black sets, 4 gray sets, 4 white sets. From www.pazera-software.com
+- fix: icon set size didnt affect toolbar
++ add: Google material design icons. 12 sets- 4 black, 4 gray, 4 white. From www.pazera-software.com
 
 2017.12.26
 + add: support high-dpi in Win10
