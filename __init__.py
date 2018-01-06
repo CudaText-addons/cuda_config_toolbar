@@ -4,7 +4,8 @@ from . import opt
 from . import dlg
 import cudatext_cmd as cmds
 
-is_new_api = app_api_version()>='1.0.211'
+is_new1 = app_api_version()>='1.0.211'
+is_new = app_api_version()>='1.0.213'
 
 icons_default = '(default)'
 icons_filenames = {
@@ -34,8 +35,8 @@ def do_load_icons(name):
     imglist = toolbar_proc('top', TOOLBAR_GET_IMAGELIST)
     imagelist_proc(imglist, IMAGELIST_SET_SIZE, (s[0], s[1]))
 
-    if app_api_version()<'1.0.213':
-        #----------------to delete this block later
+    if not is_new:
+        #----to delete this block later
         items = toolbar_proc('top', TOOLBAR_ENUM)
         for (i, item) in enumerate(items):
             cmd = item['cmd']
@@ -53,7 +54,7 @@ def do_load_icons(name):
                 continue
             toolbar_proc('top', TOOLBAR_SET_BUTTON, index=i, index2=imageindex)
 
-        if is_new_api:
+        if is_new1:
             toolbar_proc('top', TOOLBAR_UPDATE)
 
     else:
@@ -110,12 +111,36 @@ def do_load_buttons(buttons):
         if is_menu:
             _cmd = 'toolmenu:id'+str(index)
 
-        toolbar_proc('top', TOOLBAR_ADD_BUTTON,
-            text = b['cap'],
-            text2 = b['hint'],
-            command = _cmd,
-            index2 = imageindex
-            )
+        if is_new:
+            #---ok new block
+            if is_menu:
+                toolbar_proc('top', TOOLBAR_ADD_MENU)
+            else:
+                toolbar_proc('top', TOOLBAR_ADD_ITEM)
+
+            btn = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE,
+                index=toolbar_proc('top', TOOLBAR_GET_COUNT)-1 )
+            nkind = BTNKIND_SEP_HORZ if b['cap']=='-' \
+                else BTNKIND_TEXT_ONLY if imageindex<0 \
+                else BTNKIND_ICON_ONLY if not b['cap'] \
+                else BTNKIND_TEXT_ICON_HORZ
+
+            button_proc(btn, BTN_SET_TEXT, b['cap'])
+            button_proc(btn, BTN_SET_HINT, b['hint'])
+            button_proc(btn, BTN_SET_DATA1, _cmd)
+            button_proc(btn, BTN_SET_IMAGEINDEX, imageindex)
+            button_proc(btn, BTN_SET_KIND, nkind)
+
+            toolbar_proc('top', TOOLBAR_UPDATE)
+
+        else:
+            #---del this block later
+            toolbar_proc('top', TOOLBAR_ADD_BUTTON,
+                text = b['cap'],
+                text2 = b['hint'],
+                command = _cmd,
+                index2 = imageindex
+                )
 
         if is_menu:
             do_load_submenu(_cmd, b.get('sub', []))
