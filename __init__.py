@@ -34,24 +34,48 @@ def do_load_icons(name):
     imglist = toolbar_proc('top', TOOLBAR_GET_IMAGELIST)
     imagelist_proc(imglist, IMAGELIST_SET_SIZE, (s[0], s[1]))
 
-    items = toolbar_proc('top', TOOLBAR_ENUM)
-    for (i, item) in enumerate(items):
-        cmd = item['cmd']
-        try:
-            cmd_code = int(cmd)
-        except:
-            continue
+    if app_api_version()<'1.0.213':
+        #----------------to delete this block later
+        items = toolbar_proc('top', TOOLBAR_ENUM)
+        for (i, item) in enumerate(items):
+            cmd = item['cmd']
+            try:
+                cmd_code = int(cmd)
+            except:
+                continue
 
-        filename = os.path.join(dir, icons_filenames.get(cmd_code, '-')+'.png')
-        if not os.path.isfile(filename):
-            continue
-        imageindex = imagelist_proc(imglist, IMAGELIST_ADD, filename)
-        if imageindex is None:
-            print('Cannot load icon:', filename)
-            continue
-        toolbar_proc('top', TOOLBAR_SET_BUTTON, index=i, index2=imageindex)
+            filename = os.path.join(dir, icons_filenames.get(cmd_code, '-')+'.png')
+            if not os.path.isfile(filename):
+                continue
+            imageindex = imagelist_proc(imglist, IMAGELIST_ADD, filename)
+            if imageindex is None:
+                print('Cannot load icon:', filename)
+                continue
+            toolbar_proc('top', TOOLBAR_SET_BUTTON, index=i, index2=imageindex)
 
-    if is_new_api:
+        if is_new_api:
+            toolbar_proc('top', TOOLBAR_UPDATE)
+
+    else:
+        #----ok new block
+        count = toolbar_proc('top', TOOLBAR_GET_COUNT)
+        for i in range(count):
+            btn = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE, index=i)
+            cmd = button_proc(btn, BTN_GET_DATA1)
+            try:
+                cmd_code = int(cmd)
+            except:
+                continue
+
+            filename = os.path.join(dir, icons_filenames.get(cmd_code, '-')+'.png')
+            if not os.path.isfile(filename):
+                continue
+            imageindex = imagelist_proc(imglist, IMAGELIST_ADD, filename)
+            if imageindex is None:
+                print('Cannot load icon:', filename)
+                continue
+            button_proc(btn, BTN_SET_IMAGEINDEX, imageindex)
+
         toolbar_proc('top', TOOLBAR_UPDATE)
 
 
