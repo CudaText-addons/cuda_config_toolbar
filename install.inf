@@ -7,7 +7,7 @@ homepage=https://github.com/CudaText-addons/cuda_config_toolbar
 
 [item1]
 section=events
-events=on_start,on_lexer
+events=on_start,on_lexer,on_focus
 
 [item10]
 section=commands

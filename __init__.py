@@ -224,3 +224,7 @@ class Command:
     
         do_update_buttons_visible()
         
+    def on_focus(self, ed_self):
+    
+        do_update_buttons_visible()
+       
