@@ -107,6 +107,7 @@ class DialogButtons:
             b['hint'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_tooltip')['val']
             b['cmd'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_cmd')['val']
             b['icon'] = opt.encode_fn( dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_icon')['val'] )
+            b['lexers'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_lexers')['val']
             self.buttons.append(b)
             self.update_list()
 
@@ -157,6 +158,7 @@ class DialogButtons:
         dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_tooltip', prop={'val': b['hint']})
         dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_cmd', prop={'val': b['cmd']})
         dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_icon', prop={'val': opt.decode_fn(b['icon']) })
+        dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_lexers', prop={'val': b.get('lexers', '') })
 
         d.show()
         if d.show_result:
@@ -164,6 +166,7 @@ class DialogButtons:
             b['hint'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_tooltip')['val']
             b['cmd'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_cmd')['val']
             b['icon'] = opt.encode_fn( dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_icon')['val'] )
+            b['lexers'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_lexers')['val']
             self.update_list()
 
         dlg_proc(d.h_dlg, DLG_FREE)
@@ -358,7 +361,7 @@ class DialogProps:
     def __init__(self):
 
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'Button properties', 'w': 540, 'h': 216 })
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'Button properties', 'w': 540, 'h': 246 })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_cap',
@@ -432,10 +435,25 @@ class DialogProps:
           'w': 400,
           } )
 
+        n=dlg_proc(h, DLG_CTL_ADD, 'label')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_lexers',
+          'x': 10,
+          'y': 160,
+          'w': 120,
+          'cap': 'Lexers:\n(,-separated)',
+          } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'edit')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit_lexers',
+          'x': 130,
+          'y': 166,
+          'w': 400,
+          } )
+
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok',
           'x': 320,
-          'y': 180,
+          'y': 210,
           'w': 100,
           'cap': 'OK',
           'props': True,
@@ -445,7 +463,7 @@ class DialogProps:
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_cancel',
           'x': 430,
-          'y': 180,
+          'y': 210,
           'w': 100,
           'cap': 'Cancel',
           'on_change': self.call_cancel,
