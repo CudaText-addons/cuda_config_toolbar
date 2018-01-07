@@ -367,13 +367,13 @@ class DialogProps:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_cap',
           'x': 10,
           'y': 10,
-          'w': 120,
+          'w': 130,
           'cap': 'Caption:',
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit_cap',
-          'x': 130,
+          'x': 150,
           'y': 8,
           'w': 400,
           } )
@@ -382,13 +382,13 @@ class DialogProps:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_tooltip',
           'x': 10,
           'y': 40,
-          'w': 120,
+          'w': 130,
           'cap': 'Tooltip:',
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit_tooltip',
-          'x': 130,
+          'x': 150,
           'y': 38,
           'w': 400,
           } )
@@ -397,7 +397,7 @@ class DialogProps:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_cmd',
           'x': 10,
           'y': 70,
-          'w': 115,
+          'w': 130,
           'cap': 'Command...',
           'on_change': self.call_cmd,
           } )
@@ -406,14 +406,14 @@ class DialogProps:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_cmd_menu',
           'x': 10,
           'y': 100,
-          'w': 115,
+          'w': 130,
           'cap': 'Sub-menu',
           'on_change': self.call_menu,
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit_cmd',
-          'x': 130,
+          'x': 150,
           'y': 68,
           'w': 400,
           'props': (True, False, True),
@@ -423,14 +423,14 @@ class DialogProps:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_icon',
           'x': 10,
           'y': 130,
-          'w': 115,
+          'w': 130,
           'cap': 'Icon...',
           'on_change': self.call_icon,
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit_icon',
-          'x': 130,
+          'x': 150,
           'y': 128,
           'w': 400,
           } )
@@ -439,13 +439,13 @@ class DialogProps:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_lexers',
           'x': 10,
           'y': 160,
-          'w': 120,
-          'cap': 'Lexers:\n(,-separated)',
+          'w': 140,
+          'cap': 'Visible for lexers:\n(comma-separated)',
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit_lexers',
-          'x': 130,
+          'x': 150,
           'y': 166,
           'w': 400,
           } )

@@ -128,6 +128,7 @@ def do_load_buttons(buttons):
             button_proc(btn, BTN_SET_TEXT, b['cap'])
             button_proc(btn, BTN_SET_HINT, b['hint'])
             button_proc(btn, BTN_SET_DATA1, _cmd)
+            button_proc(btn, BTN_SET_DATA2, b.get('lexers', ''))
             button_proc(btn, BTN_SET_IMAGEINDEX, imageindex)
             button_proc(btn, BTN_SET_KIND, nkind)
 
@@ -145,6 +146,24 @@ def do_load_buttons(buttons):
         if is_menu:
             do_load_submenu(_cmd, b.get('sub', []))
 
+
+def do_update_buttons_visible():
+    
+    if not is_new: return
+    cur_lexer = ed.get_prop(PROP_LEXER_FILE).lower()
+    if not cur_lexer:
+        cur_lexer = '-'
+        
+    cnt = toolbar_proc('top', TOOLBAR_GET_COUNT)
+    for i in range(cnt):
+        btn = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE, index=i)
+        lexers = button_proc(btn, BTN_GET_DATA2)
+        if not lexers: continue
+        vis = ','+cur_lexer+',' in ','+lexers.lower()+','
+        button_proc(btn, BTN_SET_VISIBLE, vis)
+        
+    toolbar_proc('top', TOOLBAR_UPDATE)
+     
 
 class Command:
 
@@ -198,3 +217,10 @@ class Command:
             buttons = opt.options.get('sub', [])
             if buttons:
                 do_load_buttons(buttons)
+                do_update_buttons_visible()
+
+    
+    def on_lexer(self, ed_self):
+    
+        do_update_buttons_visible()
+        
