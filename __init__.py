@@ -148,12 +148,12 @@ def do_load_buttons(buttons):
 
 
 def do_update_buttons_visible():
-    
+
     if not is_new: return
     cur_lexer = ed.get_prop(PROP_LEXER_FILE).lower()
     if not cur_lexer:
         cur_lexer = '-'
-        
+
     cnt = toolbar_proc('top', TOOLBAR_GET_COUNT)
     for i in range(cnt):
         btn = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE, index=i)
@@ -161,9 +161,9 @@ def do_update_buttons_visible():
         if not lexers: continue
         vis = ','+cur_lexer+',' in ','+lexers.lower()+','
         button_proc(btn, BTN_SET_VISIBLE, vis)
-        
+
     toolbar_proc('top', TOOLBAR_UPDATE)
-     
+
 
 class Command:
 
@@ -219,12 +219,12 @@ class Command:
                 do_load_buttons(buttons)
                 do_update_buttons_visible()
 
-    
+
     def on_lexer(self, ed_self):
-    
+
         do_update_buttons_visible()
-        
+
     def on_focus(self, ed_self):
-    
+
         do_update_buttons_visible()
-       
+
