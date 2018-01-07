@@ -361,7 +361,7 @@ class DialogProps:
     def __init__(self):
 
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'Button properties', 'w': 540, 'h': 246 })
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'Button properties', 'w': 560, 'h': 246 })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_cap',
@@ -452,7 +452,7 @@ class DialogProps:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok',
-          'x': 320,
+          'x': 340,
           'y': 210,
           'w': 100,
           'cap': 'OK',
@@ -462,7 +462,7 @@ class DialogProps:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_cancel',
-          'x': 430,
+          'x': 450,
           'y': 210,
           'w': 100,
           'cap': 'Cancel',
