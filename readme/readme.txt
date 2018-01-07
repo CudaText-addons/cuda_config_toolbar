@@ -11,9 +11,10 @@ For additional buttons you can customize:
 - icon file (size can be any, can mismatch current icon set) 
 - command: usual CudaText commands + plugin commands, you can choose both in menu (like CudaText Commands dialog).
 
-Note: buttons can have caption, or icon, or caption+icon.
-Note: buttons cannot be added during configuring session, they will be added after CudaText restart.
-Note: dialog field "Visible for lexers" needs comma-separated lexer names, in any case. None-lexer must be specified as "-" char. Empty field: buttons is always visible.
+Notes:
+- buttons can have caption, or icon, or caption+icon.
+- dialog field "Visible for lexers" needs comma-separated lexer names, in any case. None-lexer must be specified as "-" char. Empty field: button is always visible.
+- buttons cannot be changed during configuring time, they will be changed after CudaText restart.
 
 
 Author: Alexey T.
