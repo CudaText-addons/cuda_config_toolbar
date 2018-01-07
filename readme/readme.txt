@@ -13,6 +13,7 @@ For additional buttons you can customize:
 
 Note: buttons can have caption, or icon, or caption+icon.
 Note: buttons cannot be added during configuring session, they will be added after CudaText restart.
+Note: dialog field "Visible for lexers" needs comma-separated lexer names, in any case. None-lexer must be specified as "-" char. Empty field: buttons is always visible.
 
 
 Author: Alexey T.

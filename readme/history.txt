@@ -1,6 +1,6 @@
 
 2018.01.07
-+ add: button props dialog has field "Visible for lexers". Can show buttons only for some lexers. Lexer names case-insensitive, comma-separated, none lexer is "-".
++ add: button props dialog has field "Visible for lexers". Can show buttons only for some lexers.
 
 2018.01.06
 - avoid deprecated APIs
