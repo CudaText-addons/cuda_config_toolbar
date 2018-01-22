@@ -1,4 +1,7 @@
 
+2018.01.22
+- fix: reduced flickering of toolbar, when user switches tabs
+
 2018.01.07
 + add: button props dialog has field "Visible for lexers". Can show buttons only for some lexers.
 

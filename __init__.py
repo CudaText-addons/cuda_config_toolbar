@@ -154,15 +154,21 @@ def do_update_buttons_visible():
     if not cur_lexer:
         cur_lexer = '-'
 
+    update_needed = False
     cnt = toolbar_proc('top', TOOLBAR_GET_COUNT)
+
     for i in range(cnt):
         btn = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE, index=i)
         lexers = button_proc(btn, BTN_GET_DATA2)
         if not lexers: continue
-        vis = ','+cur_lexer+',' in ','+lexers.lower()+','
-        button_proc(btn, BTN_SET_VISIBLE, vis)
+        vis_now = ','+cur_lexer+',' in ','+lexers.lower()+','
+        vis_before = button_proc(btn, BTN_GET_VISIBLE)
+        if vis_now!=vis_before:
+            update_needed = True
+            button_proc(btn, BTN_SET_VISIBLE, vis_now)
 
-    toolbar_proc('top', TOOLBAR_UPDATE)
+    if update_needed:
+        toolbar_proc('top', TOOLBAR_UPDATE)
 
 
 class Command:
