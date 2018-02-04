@@ -1,4 +1,7 @@
 
+2018.02.04
+- fix: must set arrow-align=right for dropdowns
+
 2018.01.22
 - fix: reduced flickering of toolbar, when user switches tabs
 
