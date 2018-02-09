@@ -83,7 +83,7 @@ class DialogButtons:
 
     def call_no_def(self, id_dlg, id_ctl, data='', info=''):
 
-        res = dlg_input('Space-separated indexes of toolbar buttons to hide:', opt.hide)
+        res = dlg_input('Indexes of buttons, space-separated (e.g. "0 2 10 11"):', opt.hide)
         if res is None: return
         opt.hide = res
         opt.do_save_ops()
