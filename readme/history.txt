@@ -1,4 +1,7 @@
 
+2018.02.09
++ show in Button Props dialog info about {op}
+
 2018.02.04
 - fix: must set arrow-align=right for dropdowns
 
