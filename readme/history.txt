@@ -1,6 +1,7 @@
 
 2018.02.09
 + show in Button Props dialog info about {op}
++ don't hide {op} when showing Props dialog
 
 2018.02.04
 - fix: must set arrow-align=right for dropdowns
