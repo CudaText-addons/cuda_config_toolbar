@@ -157,7 +157,7 @@ class DialogButtons:
         dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_cap', prop={'val': b['cap']})
         dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_tooltip', prop={'val': b['hint']})
         dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_cmd', prop={'val': b['cmd']})
-        dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_icon', prop={'val': opt.decode_fn(b['icon']) })
+        dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_icon', prop={'val': b['icon'] })
         dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_lexers', prop={'val': b.get('lexers', '') })
 
         d.show()
