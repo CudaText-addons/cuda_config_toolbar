@@ -1,10 +1,8 @@
 Plugin for CudaText.
-Allows to config main toolbar (on the top):
+Allows to configure main toolbar (on the top):
+- hide some standard buttons (specify 0-based button indexes, e.g. "0 2 8 9")
+- add additional buttons.
 
-1) Choose icon set, for standard buttons. 
-Many icon sets are shipped with plugin.
-
-2) Config additional buttons (to standard buttons).
 For additional buttons you can customize: 
 - caption 
 - tooltip 
