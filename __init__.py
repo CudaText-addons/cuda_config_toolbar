@@ -4,9 +4,6 @@ from . import opt
 from . import dlg
 import cudatext_cmd as cmds
 
-is_new1 = app_api_version()>='1.0.211'
-is_new = app_api_version()>='1.0.213'
-
 icons_default = '(default)'
 icons_filenames = {
   cmds.cCommand_ClipboardCopy: 'e_copy',
@@ -35,30 +32,7 @@ def do_load_icons(name):
     imglist = toolbar_proc('top', TOOLBAR_GET_IMAGELIST)
     imagelist_proc(imglist, IMAGELIST_SET_SIZE, (s[0], s[1]))
 
-    if not is_new:
-        #----to delete this block later
-        items = toolbar_proc('top', TOOLBAR_ENUM)
-        for (i, item) in enumerate(items):
-            cmd = item['cmd']
-            try:
-                cmd_code = int(cmd)
-            except:
-                continue
-
-            filename = os.path.join(dir, icons_filenames.get(cmd_code, '-')+'.png')
-            if not os.path.isfile(filename):
-                continue
-            imageindex = imagelist_proc(imglist, IMAGELIST_ADD, filename)
-            if imageindex is None:
-                print('Cannot load icon:', filename)
-                continue
-            toolbar_proc('top', TOOLBAR_SET_BUTTON, index=i, index2=imageindex)
-
-        if is_new1:
-            toolbar_proc('top', TOOLBAR_UPDATE)
-
-    else:
-        #----ok new block
+    if True:
         count = toolbar_proc('top', TOOLBAR_GET_COUNT)
         for i in range(count):
             btn = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE, index=i)
@@ -111,8 +85,7 @@ def do_load_buttons(buttons):
         if is_menu:
             _cmd = 'toolmenu:id'+str(index)
 
-        if is_new:
-            #---ok new block
+        if True:
             if is_menu:
                 toolbar_proc('top', TOOLBAR_ADD_MENU)
             else:
@@ -152,7 +125,6 @@ def do_load_buttons(buttons):
 
 def do_update_buttons_visible():
 
-    if not is_new: return
     cur_lexer = ed.get_prop(PROP_LEXER_FILE).lower()
     if not cur_lexer:
         cur_lexer = '-'
