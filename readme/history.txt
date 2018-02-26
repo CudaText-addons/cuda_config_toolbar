@@ -1,4 +1,7 @@
 
+2018.02.26
+* removed command to configure icon-set, now use CudaText option "ui_toolbar_theme" + icon-sets from AddonManager
+
 2018.02.09
 + show in Button Props dialog info about {op}
 + don't hide {op} when showing Props dialog

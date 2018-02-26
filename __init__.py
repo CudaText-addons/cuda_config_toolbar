@@ -4,55 +4,6 @@ from . import opt
 from . import dlg
 import cudatext_cmd as cmds
 
-icons_default = '(default)'
-icons_filenames = {
-  cmds.cCommand_ClipboardCopy: 'e_copy',
-  cmds.cCommand_ClipboardCut: 'e_cut',
-  cmds.cCommand_ClipboardPaste: 'e_paste',
-  cmds.cCommand_Undo: 'e_undo',
-  cmds.cCommand_Redo: 'e_redo',
-  cmds.cmd_FileNew: 'f_new',
-  cmds.cmd_FileOpen: 'f_open',
-  cmds.cmd_FileSave: 'f_save',
-  cmds.cCommand_TextIndent: 'indent',
-  cmds.cCommand_TextUnindent: 'unindent',
-  cmds.cCommand_ToggleMinimap: 'map',
-  cmds.cCommand_ToggleUnprinted: 'unpri',
-}
-
-
-def do_load_icons(name):
-
-    dir = os.path.join(opt.dir_icon_sets, name)
-    if not os.path.isdir(dir): return
-
-    print('Loading icons:', name)
-    s = name.split('_')[1].split('x')
-
-    imglist = toolbar_proc('top', TOOLBAR_GET_IMAGELIST)
-    imagelist_proc(imglist, IMAGELIST_SET_SIZE, (s[0], s[1]))
-
-    if True:
-        count = toolbar_proc('top', TOOLBAR_GET_COUNT)
-        for i in range(count):
-            btn = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE, index=i)
-            cmd = button_proc(btn, BTN_GET_DATA1)
-            try:
-                cmd_code = int(cmd)
-            except:
-                continue
-
-            filename = os.path.join(dir, icons_filenames.get(cmd_code, '-')+'.png')
-            if not os.path.isfile(filename):
-                continue
-            imageindex = imagelist_proc(imglist, IMAGELIST_ADD, filename)
-            if imageindex is None:
-                print('Cannot load icon:', filename)
-                continue
-            button_proc(btn, BTN_SET_IMAGEINDEX, imageindex)
-
-        toolbar_proc('top', TOOLBAR_UPDATE)
-
 
 def do_load_submenu(id_menu, items):
 
@@ -159,34 +110,10 @@ class Command:
             msg_box('Toolbar config will be applied after CudaText restart', MB_OK+MB_ICONINFO)
 
 
-    def do_icons(self):
-
-        dirs = os.listdir(opt.dir_icon_sets)
-        if not dirs:
-            print('Cannot find icon-sets')
-            return
-        dirs = [icons_default] + sorted(dirs)
-        res = dlg_menu(MENU_LIST, '\n'.join(dirs))
-        if res is None: return
-
-        name = dirs[res]
-        opt.options['icon_set'] = name
-        opt.do_save_ops()
-
-        if name==icons_default:
-            msg_box('Default icons will be set after app restart', MB_OK)
-            return
-        do_load_icons(name)
-
-
     def on_start(self, ed_self):
 
         if os.path.isfile(opt.fn_config):
             opt.do_load_ops()
-
-            icons = opt.options.get('icon_set', '')
-            if icons and icons!=icons_default:
-                do_load_icons(icons)
 
             hide_list = opt.hide.split(' ')
             hide_list = [i for i in hide_list if i]

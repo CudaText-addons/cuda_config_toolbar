@@ -8,7 +8,6 @@ options = {
     }
 
 fn_config = os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'cuda_config_toolbar.json')
-dir_icon_sets = os.path.join(os.path.dirname(__file__), 'icons')
 dir_icons = ''
 dir_settings = app.app_path(app.APP_DIR_SETTINGS)
 macro_settings = '{op}'
