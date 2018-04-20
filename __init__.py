@@ -3,6 +3,7 @@ from cudatext import *
 from . import opt
 from . import dlg
 import cudatext_cmd as cmds
+import cudax_lib as appx
 
 
 def do_load_submenu(id_menu, items):
@@ -136,3 +137,29 @@ class Command:
 
         do_update_buttons_visible()
 
+
+    def _choose_icons(self, icon_dir, icon_option, icon_def):
+
+        dir = os.path.join(app_path(APP_DIR_DATA), icon_dir)
+        dirs = sorted(os.listdir(dir))
+        if not dirs: return
+
+        opt = appx.get_opt(icon_option, icon_def, appx.CONFIG_LEV_USER)
+        try:
+            index = dirs.index(opt)
+        except:
+            index = -1
+
+        res = dlg_menu(MENU_LIST, dirs, focused=index)
+        if res is None: return
+
+        opt = dirs[res]
+        appx.set_opt(icon_option, opt, appx.CONFIG_LEV_USER)
+        msg_box('Changed option in user.json, restart app to see effect', MB_OK+MB_ICONINFO)
+
+
+    def icons_toolbar(self):
+        self._choose_icons('toolbaricons', 'ui_toolbar_theme', 'default_24x24')
+
+    def icons_sidebar(self):
+        self._choose_icons('sideicons', 'ui_sidebar_theme', 'common_20x20')

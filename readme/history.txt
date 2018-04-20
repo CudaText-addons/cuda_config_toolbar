@@ -1,4 +1,7 @@
 
+2018.04.20
++ add: 2 commands to change icon themes: of main toolbar, of sidebar
+
 2018.02.26
 * removed command to configure icon-set, now use CudaText option "ui_toolbar_theme" + icon-sets from AddonManager
 
