@@ -1,4 +1,7 @@
 
+2018.04.21
++ add: command to change "code tree" icon theme
+
 2018.04.20
 + add: 2 commands to change icon themes: of main toolbar, of sidebar
 

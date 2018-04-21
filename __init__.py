@@ -163,3 +163,6 @@ class Command:
 
     def icons_sidebar(self):
         self._choose_icons('sideicons', 'ui_sidebar_theme', 'common_20x20')
+
+    def icons_codetree(self):
+        self._choose_icons('codetreeicons', 'ui_tree_theme', 'default_16x16')

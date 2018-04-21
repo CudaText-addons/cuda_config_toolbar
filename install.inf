@@ -20,6 +20,11 @@ section=commands
 caption=Config Toolbar\Choose icons of sidebar...
 method=icons_sidebar
 
+[item5]
+section=commands
+caption=Config Toolbar\Choose icons of code tree...
+method=icons_codetree
+
 [item10]
 section=commands
 caption=Config Toolbar\Toolbar buttons...
