@@ -155,7 +155,11 @@ class Command:
 
         opt = dirs[res]
         appx.set_opt(icon_option, opt, appx.CONFIG_LEV_USER)
-        msg_box('Changed option in user.json, restart app to see effect', MB_OK+MB_ICONINFO)
+        opt_now = appx.get_opt(icon_option)
+        if opt != opt_now:
+            msg_box('Error writing option to user.json\nGot value "{}"'.format(opt_now), MB_OK+MB_ICONERROR)
+        else:
+            msg_box('Changed option in user.json, restart app to see effect', MB_OK+MB_ICONINFO)
 
 
     def icons_toolbar(self):
