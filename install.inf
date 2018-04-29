@@ -10,17 +10,17 @@ api=1.0.229
 section=events
 events=on_start,on_lexer,on_focus
 
-[item2]
+[item12]
 section=commands
 caption=Config Toolbar\Choose icons of main toolbar...
 method=icons_toolbar
 
-[item3]
+[item13]
 section=commands
 caption=Config Toolbar\Choose icons of sidebar...
 method=icons_sidebar
 
-[item5]
+[item15]
 section=commands
 caption=Config Toolbar\Choose icons of code tree...
 method=icons_codetree
