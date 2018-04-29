@@ -1,6 +1,7 @@
 
 2018.04.29
 * reorder menu items in Plugins
++ add: diagnose error of writing option to user.json (show msgbox)
 
 2018.04.21
 + add: command to change "code tree" icon theme
