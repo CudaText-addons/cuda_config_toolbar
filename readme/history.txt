@@ -1,4 +1,7 @@
 
+2018.07.14
+- fix: prevent duplicated toolbar buttons after command "reset python plugins"
+
 2018.04.29
 * reorder menu items in Plugins
 + add: diagnose error of writing option to user.json (show msgbox)

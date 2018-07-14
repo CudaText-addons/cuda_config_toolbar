@@ -19,6 +19,17 @@ def do_load_submenu(id_menu, items):
             do_load_submenu(id_new, item.get('sub', []))
 
 
+def is_button_present(caption, command):
+    
+    cnt = toolbar_proc('top', TOOLBAR_GET_COUNT)
+    for index in range(cnt):
+        h = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE, index=index)
+        if caption==button_proc(h, BTN_GET_TEXT) and \
+          command==button_proc(h, BTN_GET_DATA1):
+            return True
+    return False
+    
+
 def do_load_buttons(buttons):
 
     print('Loading toolbar config')
@@ -36,6 +47,10 @@ def do_load_buttons(buttons):
         is_menu = _cmd=='menu'
         if is_menu:
             _cmd = 'toolmenu:id'+str(index)
+
+        # prevent duplicate btns on "reset python plugins"
+        if is_button_present(b['cap'], _cmd):
+            continue
 
         if True:
             if is_menu:
