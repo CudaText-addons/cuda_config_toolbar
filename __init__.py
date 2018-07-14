@@ -19,21 +19,34 @@ def do_load_submenu(id_menu, items):
             do_load_submenu(id_new, item.get('sub', []))
 
 
-def is_button_present(caption, command):
-    
+_content = []
+
+def get_toolbar_content():
+
+    global _content
+    _content = []
     cnt = toolbar_proc('top', TOOLBAR_GET_COUNT)
     for index in range(cnt):
         h = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE, index=index)
-        if caption==button_proc(h, BTN_GET_TEXT) and \
-          command==button_proc(h, BTN_GET_DATA1):
+        cap = button_proc(h, BTN_GET_TEXT)
+        cmd = button_proc(h, BTN_GET_DATA1)
+        _content += [(cap, cmd)]
+
+
+def is_button_present(caption, command):
+
+    for (cap, cmd) in _content:
+        if (cap==caption) and (cmd==command):
             return True
     return False
-    
+
 
 def do_load_buttons(buttons):
 
     print('Loading toolbar config')
     imglist = toolbar_proc('top', TOOLBAR_GET_IMAGELIST)
+
+    get_toolbar_content()
 
     for (index, b) in enumerate(buttons):
         fn = opt.decode_fn(b['icon'])
