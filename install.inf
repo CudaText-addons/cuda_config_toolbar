@@ -10,6 +10,11 @@ api=1.0.229
 section=events
 events=on_start,on_lexer,on_focus
 
+[item10]
+section=commands
+caption=Config Toolbar\Toolbar buttons...
+method=do_buttons
+
 [item12]
 section=commands
 caption=Config Toolbar\Choose icons of main toolbar...
@@ -24,8 +29,3 @@ method=icons_sidebar
 section=commands
 caption=Config Toolbar\Choose icons of code tree...
 method=icons_codetree
-
-[item10]
-section=commands
-caption=Config Toolbar\Toolbar buttons...
-method=do_buttons
