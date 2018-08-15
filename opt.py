@@ -18,10 +18,19 @@ def encode_fn(fn):
     s = fn
     if s.startswith(dir_settings):
         s = macro_settings+s[len(dir_settings):]
+
+    s = s.replace('\\', '/')
+
     return s
 
 def decode_fn(fn):
     s = fn
+
+    if os.name=='nt':
+        s = s.replace('/', '\\')
+    else:
+        s = s.replace('\\', '/')
+
     if s.startswith(macro_settings):
         s = dir_settings + s[len(macro_settings):]
     return s

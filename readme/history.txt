@@ -1,4 +1,8 @@
 
+2018.08.15
+- fix: order of menu items in Plugins
+- fix: now icon filenames saved on Win must be read ok on Unix (and vice versa)
+
 2018.07.14
 - fix: prevent duplicated toolbar buttons after command "reset python plugins"
 
