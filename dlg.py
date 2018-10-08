@@ -1,6 +1,8 @@
 import os
 from cudatext import *
+from shutil import copyfile
 from . import opt
+from . import dlg_choose_icon
 
 
 class DialogButtons:
@@ -352,10 +354,27 @@ class DialogProps:
 
     def call_icon(self, id_dlg, id_ctl, data='', info=''):
 
-        s = dlg_file(True, '', opt.dir_icons, 'Image files|*.png;*.bmp')
-        if s:
-            opt.dir_icons = os.path.dirname(s)
-            dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='edit_icon', prop={'val': s})
+        dir = os.path.join(os.path.dirname(__file__), 'icons')
+        d = dlg_choose_icon.DialogChooseIcon()
+        res = d.choose_icon(dir)
+        if res:
+            filename, size = res
+            dir_sett = app_path(APP_DIR_SETTINGS)
+            dir_icons = os.path.join(dir_sett, 'toolbar_icons')
+            if not os.path.isdir(dir_icons):
+                os.mkdir(dir_icons)
+
+            filename2 = os.path.join(
+                dir_icons,
+                os.path.basename(os.path.dirname(filename))+'__'+os.path.basename(filename)
+                )
+            copyfile(filename, filename2)
+
+            fn = filename2
+            if fn.startswith(dir_sett):
+                fn = fn.replace(dir_sett, '{op}')
+                
+            dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='edit_icon', prop={'val': fn})
 
 
     def __init__(self):
