@@ -352,6 +352,10 @@ class DialogProps:
         dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='edit_cmd', prop={'val': 'menu'})
 
 
+    def call_icon_file(self, id_dlg, id_ctl, data='', info=''):
+    
+        pass
+
     def call_icon(self, id_dlg, id_ctl, data='', info=''):
 
         dir = os.path.join(os.path.dirname(__file__), 'icons')
@@ -380,7 +384,7 @@ class DialogProps:
     def __init__(self):
 
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'Button properties', 'w': 560, 'h': 265 })
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'Button properties', 'w': 600, 'h': 295 })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_cap',
@@ -394,7 +398,7 @@ class DialogProps:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit_cap',
           'x': 150,
           'y': 8,
-          'w': 400,
+          'w': 440,
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
@@ -409,7 +413,7 @@ class DialogProps:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit_tooltip',
           'x': 150,
           'y': 38,
-          'w': 400,
+          'w': 440,
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
@@ -434,24 +438,23 @@ class DialogProps:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit_cmd',
           'x': 150,
           'y': 68,
-          'w': 400,
+          'w': 440,
           'props': (True, False, True),
           } )
 
-        n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_icon',
+        n=dlg_proc(h, DLG_CTL_ADD, 'label')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_icon',
           'x': 10,
           'y': 130,
           'w': 130,
-          'cap': 'Icon...',
-          'on_change': self.call_icon,
+          'cap': 'Icon:',
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit_icon',
           'x': 150,
           'y': 128,
-          'w': 400,
+          'w': 440,
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
@@ -462,10 +465,28 @@ class DialogProps:
           'w': 400,
           } )
 
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_icon',
+          'x': 150,
+          'y': 182,
+          'w': 180,
+          'cap': 'Choose from icon set...',
+          'on_change': self.call_icon,
+          } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_icon_file',
+          'x': 340,
+          'y': 182,
+          'w': 180,
+          'cap': 'Choose from file...',
+          'on_change': self.call_icon_file,
+          } )
+
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_lexers',
           'x': 10,
-          'y': 180,
+          'y': 210,
           'w': 140,
           'cap': 'Visible for lexers:\n(comma-separated)',
           } )
@@ -473,14 +494,14 @@ class DialogProps:
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit_lexers',
           'x': 150,
-          'y': 186,
-          'w': 400,
+          'y': 216,
+          'w': 440,
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok',
-          'x': 340,
-          'y': 230,
+          'x': 380,
+          'y': 260,
           'w': 100,
           'cap': 'OK',
           'props': True,
@@ -489,8 +510,8 @@ class DialogProps:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_cancel',
-          'x': 450,
-          'y': 230,
+          'x': 490,
+          'y': 260,
           'w': 100,
           'cap': 'Cancel',
           'on_change': self.call_cancel,
