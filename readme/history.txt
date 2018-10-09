@@ -1,8 +1,6 @@
 
-2018.10.10
-* deleted huge icon-sets: Fugue 16x, FatCow 16x, Gnome 22x
-
 2018.10.09
+* deleted huge icon-sets: Fugue 16x, FatCow 16x, Gnome 22x
 + add: icon-set Gnome (16x, 22x, 24x)
 + add: dialog button to choose icon from any file
 
