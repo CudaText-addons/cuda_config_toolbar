@@ -424,22 +424,12 @@ class DialogProps:
           'w': 440,
           } )
 
-        n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_cmd',
+        n=dlg_proc(h, DLG_CTL_ADD, 'label')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_cmd',
           'x': 10,
           'y': 70,
           'w': 130,
-          'cap': 'Command...',
-          'on_change': self.call_cmd,
-          } )
-
-        n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_cmd_menu',
-          'x': 10,
-          'y': 100,
-          'w': 130,
-          'cap': 'Sub-menu',
-          'on_change': self.call_menu,
+          'cap': 'Command:',
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
@@ -448,6 +438,24 @@ class DialogProps:
           'y': 68,
           'w': 440,
           'props': (True, False, True),
+          } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_cmd',
+          'x': 150,
+          'y': 100,
+          'w': 180,
+          'cap': 'Choose command...',
+          'on_change': self.call_cmd,
+          } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_cmd_menu',
+          'x': 340,
+          'y': 100,
+          'w': 180,
+          'cap': 'Use sub-menu',
+          'on_change': self.call_menu,
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
