@@ -1,6 +1,11 @@
 
+2018.10.09
++ add: icon-set Gnome (16x, 22x, 24x)
+
 2018.10.08
-+ add: several icon-sets added to plugin: Fugue, Tango, FatCow
++ add: icon-set Fugue (16x, 24x, 32x)
++ add: icon-set Tango (16x, 22x, 32x)
++ add: icon-set FatCow (16x)
 + add: now used new dialog to choose icons for buttons. It asks for icon-set dir (from plugin only), then asks for icon from icon-set.
 + add: chosen icon file is auto-copied to settings/toolbar_icons
 
