@@ -352,9 +352,32 @@ class DialogProps:
         dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='edit_cmd', prop={'val': 'menu'})
 
 
+    def set_icon(self, filename):
+
+        dir_sett = app_path(APP_DIR_SETTINGS)
+        dir_icons = os.path.join(dir_sett, 'tool_icons')
+        if not os.path.isdir(dir_icons):
+            os.mkdir(dir_icons)
+
+        filename2 = os.path.join(
+            dir_icons,
+            os.path.basename(os.path.dirname(filename))+'@'+os.path.basename(filename)
+            )
+        copyfile(filename, filename2)
+
+        fn = filename2
+        if fn.startswith(dir_sett):
+            fn = fn.replace(dir_sett, '{op}')
+
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='edit_icon', prop={'val': fn})
+
+
     def call_icon_file(self, id_dlg, id_ctl, data='', info=''):
-    
-        pass
+
+        res = dlg_file(True, '', '', 'PNG files|*.png')
+        if not res: return
+        self.set_icon(res)
+
 
     def call_icon(self, id_dlg, id_ctl, data='', info=''):
 
@@ -363,22 +386,7 @@ class DialogProps:
         res = d.choose_icon(dir)
         if res:
             filename, size = res
-            dir_sett = app_path(APP_DIR_SETTINGS)
-            dir_icons = os.path.join(dir_sett, 'toolbar_icons')
-            if not os.path.isdir(dir_icons):
-                os.mkdir(dir_icons)
-
-            filename2 = os.path.join(
-                dir_icons,
-                os.path.basename(os.path.dirname(filename))+'__'+os.path.basename(filename)
-                )
-            copyfile(filename, filename2)
-
-            fn = filename2
-            if fn.startswith(dir_sett):
-                fn = fn.replace(dir_sett, '{op}')
-                
-            dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='edit_icon', prop={'val': fn})
+            self.set_icon(filename)
 
 
     def __init__(self):
