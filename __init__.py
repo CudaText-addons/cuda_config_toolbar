@@ -172,20 +172,20 @@ class Command:
         dirs = sorted(os.listdir(dir))
         if not dirs: return
 
-        opt = appx.get_opt(icon_option, icon_def, appx.CONFIG_LEV_USER)
+        s = appx.get_opt(icon_option, icon_def, appx.CONFIG_LEV_USER)
         try:
-            index = dirs.index(opt)
+            index = dirs.index(s)
         except:
             index = -1
 
         res = dlg_menu(MENU_LIST, dirs, focused=index)
         if res is None: return
 
-        opt = dirs[res]
-        appx.set_opt(icon_option, opt, appx.CONFIG_LEV_USER)
-        opt_now = appx.get_opt(icon_option)
-        if opt != opt_now:
-            msg_box('Error writing option to user.json\nGot value "{}"'.format(opt_now), MB_OK+MB_ICONERROR)
+        s = dirs[res]
+        appx.set_opt(icon_option, s, appx.CONFIG_LEV_USER)
+        s_now = appx.get_opt(icon_option)
+        if s != s_now:
+            msg_box('Error writing option to user.json\nGot value "{}"'.format(s_now), MB_OK+MB_ICONERROR)
         else:
             msg_box('Changed option in user.json, restart app to see effect', MB_OK+MB_ICONINFO)
 
