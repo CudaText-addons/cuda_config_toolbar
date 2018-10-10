@@ -6,7 +6,7 @@ CHOOSE_FORM_H = 580
 CHOOSE_COLOR_LIST = 0xFFFFFF
 CHOOSE_COLOR_SEL = 0xE0A0A0
 
-DIR_USER_SETS = os.path.join(app_path(APP_DIR_DATA), 'toolbarxicons')
+DIR_XICONS = os.path.join(app_path(APP_DIR_DATA), 'toolbarxicons')
 
 
 def get_icon_size(filename):
@@ -41,7 +41,7 @@ class DialogChooseIcon:
     def get_iconset(self, basedir):
 
         d1 = get_dirs_in(basedir)
-        d2 = get_dirs_in(DIR_USER_SETS)
+        d2 = get_dirs_in(DIR_XICONS)
         dirs = d1+d2
 
         d1_nice = [os.path.basename(f) for f in d1]
