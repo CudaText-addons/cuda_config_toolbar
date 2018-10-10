@@ -1,5 +1,7 @@
 
 2018.10.10
+* change: deleted icon-sets Gnome
+* change: renamed icon-sets Fugue
 + add: plugin can apply user buttons without app restart
 * change: command "Hide standard buttons" is now in Plugins menu (removed button from dialog)
 
