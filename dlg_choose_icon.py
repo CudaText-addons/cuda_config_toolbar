@@ -7,6 +7,16 @@ CHOOSE_COLOR_LIST = 0xFFFFFF
 CHOOSE_COLOR_SEL = 0xE0A0A0
 
 
+def get_icon_size(filename):
+
+    s = os.path.basename(filename)
+    s = s.split('_')[-1].split('x')[0]
+    try:
+        return int(s)
+    except:
+        return 32
+
+
 class DialogChooseIcon:
 
     def __init__(self):
@@ -137,10 +147,7 @@ class DialogChooseIcon:
         self.filedir = self.get_iconset(basedir)
         if not self.filedir: return
 
-        try:
-            self.icon_size = int(self.filedir[-2:])
-        except:
-            self.icon_size = 32
+        self.icon_size = get_icon_size(self.filedir)
 
         listbox_proc(self.h_list, LISTBOX_SET_ITEM_H, index=max(18, self.icon_size))
 
