@@ -1,4 +1,7 @@
 
+2018.10.11
++ add: support for additional icon-sets from data/toolbarxicons folder
+
 2018.10.10
 * change: deleted icon-sets Gnome
 * change: renamed icon-sets Fugue
