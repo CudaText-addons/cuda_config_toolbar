@@ -1,10 +1,10 @@
 
-2018.10.11
-+ add: support for additional icon-sets from data/toolbarxicons folder
+2018.10.10
++ add: support for additional icon-sets from [CudaText]/data/toolbarxicons
+* change: deleted icon-sets Gnome
+* change: deleted icon-sets Fugue
 
 2018.10.10
-* change: deleted icon-sets Gnome
-* change: renamed icon-sets Fugue
 + add: plugin can apply user buttons without app restart
 * change: command "Hide standard buttons" is now in Plugins menu (removed button from dialog)
 
