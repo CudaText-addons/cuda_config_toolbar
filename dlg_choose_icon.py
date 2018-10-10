@@ -6,6 +6,8 @@ CHOOSE_FORM_H = 580
 CHOOSE_COLOR_LIST = 0xFFFFFF
 CHOOSE_COLOR_SEL = 0xE0A0A0
 
+DIR_USER_SETS = os.path.join(app_path(APP_DIR_DATA), 'toolbaruserset')
+
 
 def get_icon_size(filename):
 
@@ -15,6 +17,17 @@ def get_icon_size(filename):
         return int(s)
     except:
         return 32
+
+
+def get_dirs_in(basedir):
+
+    if not os.path.isdir(basedir):
+        return []
+    d = os.listdir(basedir)
+    d = [os.path.join(basedir, f) for f in d]
+    d = [f for f in d if os.path.isdir(f)]
+    return sorted(d)
+
 
 
 class DialogChooseIcon:
@@ -27,11 +40,17 @@ class DialogChooseIcon:
 
     def get_iconset(self, basedir):
 
-        dirs = sorted(os.listdir(basedir))
-        dirs = [d for d in dirs if '_' in d]
-        res = dlg_menu(MENU_LIST, dirs, caption='Choose icon set')
+        d1 = get_dirs_in(basedir)
+        d2 = get_dirs_in(DIR_USER_SETS)
+        dirs = d1+d2
+
+        d1_nice = [os.path.basename(f)+' (standard)' for f in d1]
+        d2_nice = [os.path.basename(f)+' (additional)' for f in d2]
+        d_nice = d1_nice+d2_nice
+
+        res = dlg_menu(MENU_LIST, d_nice, caption='Choose icon set')
         if res is not None:
-            return os.path.join(basedir, dirs[res])
+            return dirs[res]
 
 
     def get_files(self, basedir):
