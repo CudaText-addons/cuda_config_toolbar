@@ -12,8 +12,8 @@ DIR_XICONS = os.path.join(app_path(APP_DIR_DATA), 'toolbarxicons')
 def get_icon_size(filename):
 
     s = os.path.basename(filename)
-    s = s.split('_')[-1].split('x')[0]
     try:
+        s = s.split('_')[-1].split('x')[0]
         return int(s)
     except:
         return 32
