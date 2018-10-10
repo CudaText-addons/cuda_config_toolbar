@@ -371,7 +371,7 @@ class DialogProps:
     def __init__(self):
 
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'Button properties', 'w': 600, 'h': 295 })
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'Button properties', 'w': 600, 'h': 325 })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_cap',
@@ -479,9 +479,17 @@ class DialogProps:
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_xsets',
+          'x': 150,
+          'y': 212,
+          'w': 600,
+          'cap': 'To enable more icon sets, install "toolbarxicons" add-ons',
+          } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'label')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_lexers',
           'x': 10,
-          'y': 210,
+          'y': 240,
           'w': 140,
           'cap': 'Visible for lexers:\n(comma-separated)',
           } )
@@ -489,14 +497,14 @@ class DialogProps:
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit_lexers',
           'x': 150,
-          'y': 216,
+          'y': 246,
           'w': 440,
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok',
           'x': 380,
-          'y': 260,
+          'y': 290,
           'w': 100,
           'cap': 'OK',
           'props': True,
@@ -506,18 +514,10 @@ class DialogProps:
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_cancel',
           'x': 490,
-          'y': 260,
+          'y': 290,
           'w': 100,
           'cap': 'Cancel',
           'on_change': self.call_cancel,
           } )
 
         self.h_dlg = h
-
-
-
-#, c1.join(['type=button', 'pos=400,270,600,0', 'cap=&Config selected menu...', 'en='+b_sel_menu])
-#, c1.join(['type=check', 'pos=200,330,600,0', 'cap=Remo&ve standard buttons', 'val='+b_clear, 'en='+b_en_clear])
-
-#if not val_cap and not val_icon:
-#    msg_box('Button needs caption, or icon, or caption+icon', MB_OK+MB_ICONWARNING)
