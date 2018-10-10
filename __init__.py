@@ -6,6 +6,11 @@ import cudatext_cmd as cmds
 import cudax_lib as appx
 
 
+def get_count():
+
+    return toolbar_proc('top', TOOLBAR_GET_COUNT)
+
+
 def do_load_submenu(id_menu, items):
 
     menu_proc(id_menu, MENU_CLEAR)
@@ -25,8 +30,7 @@ def get_toolbar_content():
 
     global _content
     _content = []
-    cnt = toolbar_proc('top', TOOLBAR_GET_COUNT)
-    for index in range(cnt):
+    for index in range(get_count()):
         h = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE, index=index)
         cap = button_proc(h, BTN_GET_TEXT)
         cmd = button_proc(h, BTN_GET_DATA1)
@@ -72,7 +76,7 @@ def do_load_buttons(buttons):
                 toolbar_proc('top', TOOLBAR_ADD_ITEM)
 
             btn = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE,
-                index=toolbar_proc('top', TOOLBAR_GET_COUNT)-1 )
+                index=get_count()-1 )
             nkind = BTNKIND_SEP_HORZ if b['cap']=='-' \
                 else BTNKIND_TEXT_ONLY if imageindex<0 \
                 else BTNKIND_ICON_ONLY if not b['cap'] \
@@ -110,7 +114,7 @@ def do_update_buttons_visible():
         cur_lexer = '-'
 
     update_needed = False
-    cnt = toolbar_proc('top', TOOLBAR_GET_COUNT)
+    cnt = get_count()
 
     for i in range(cnt):
         btn = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE, index=i)
@@ -142,7 +146,7 @@ class Command:
 
     def on_start(self, ed_self):
 
-        self.std_count = toolbar_proc('top', TOOLBAR_GET_COUNT)
+        self.std_count = get_count()
 
         if os.path.isfile(opt.fn_config):
             opt.do_load_ops()
@@ -154,15 +158,14 @@ class Command:
                 for i in hide_list:
                     toolbar_proc('top', TOOLBAR_DELETE_BUTTON, index=i)
 
-            self.std_count = toolbar_proc('top', TOOLBAR_GET_COUNT)
+            self.std_count = get_count()
             self.apply_user_buttons()
 
 
     def apply_user_buttons(self):
 
         # delete old user buttons
-        cnt = toolbar_proc('top', TOOLBAR_GET_COUNT)
-        for i in reversed(range(self.std_count, cnt)):
+        for i in reversed(range(self.std_count, get_count())):
             toolbar_proc('top', TOOLBAR_DELETE_BUTTON, index=i)
 
         buttons = opt.options.get('sub', [])
