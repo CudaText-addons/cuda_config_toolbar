@@ -136,10 +136,13 @@ class Command:
         if d.show_result:
             opt.options['sub'] = list(d.buttons) #copy back
             opt.do_save_ops()
-            msg_box('Toolbar config will be applied after CudaText restart', MB_OK+MB_ICONINFO)
+
+            self.apply_user_buttons()
 
 
     def on_start(self, ed_self):
+
+        self.std_count = toolbar_proc('top', TOOLBAR_GET_COUNT)
 
         if os.path.isfile(opt.fn_config):
             opt.do_load_ops()
@@ -151,10 +154,21 @@ class Command:
                 for i in hide_list:
                     toolbar_proc('top', TOOLBAR_DELETE_BUTTON, index=i)
 
-            buttons = opt.options.get('sub', [])
-            if buttons:
-                do_load_buttons(buttons)
-                do_update_buttons_visible()
+            self.std_count = toolbar_proc('top', TOOLBAR_GET_COUNT)
+            self.apply_user_buttons()
+
+
+    def apply_user_buttons(self):
+
+        # delete old user buttons
+        cnt = toolbar_proc('top', TOOLBAR_GET_COUNT)
+        for i in reversed(range(self.std_count, cnt)):
+            toolbar_proc('top', TOOLBAR_DELETE_BUTTON, index=i)
+
+        buttons = opt.options.get('sub', [])
+        if buttons:
+            do_load_buttons(buttons)
+            do_update_buttons_visible()
 
 
     def on_lexer(self, ed_self):
@@ -200,10 +214,9 @@ class Command:
         self._choose_icons('codetreeicons', 'ui_tree_theme', 'default_16x16')
 
     def hide_std(self):
-    
+
         res = dlg_input('Indexes of buttons to hide, space-separated (e.g. "0 2 10 11"):', opt.hide)
         if res is None: return
         opt.hide = res
         opt.do_save_ops()
         msg_box('Option will be applied after app restart', MB_OK+MB_ICONINFO)
-        

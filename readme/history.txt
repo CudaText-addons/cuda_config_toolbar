@@ -1,5 +1,6 @@
 
 2018.10.10
++ add: plugin can apply user buttons without app restart
 * change: command "Hide standard buttons" is now in Plugins menu (removed button from dialog)
 
 2018.10.09
