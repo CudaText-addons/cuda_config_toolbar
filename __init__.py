@@ -198,3 +198,12 @@ class Command:
 
     def icons_codetree(self):
         self._choose_icons('codetreeicons', 'ui_tree_theme', 'default_16x16')
+
+    def hide_std(self):
+    
+        res = dlg_input('Indexes of buttons to hide, space-separated (e.g. "0 2 10 11"):', opt.hide)
+        if res is None: return
+        opt.hide = res
+        opt.do_save_ops()
+        msg_box('Option will be applied after app restart', MB_OK+MB_ICONINFO)
+        

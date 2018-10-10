@@ -10,10 +10,20 @@ api=1.0.229
 section=events
 events=on_start,on_lexer,on_focus
 
+[item2]
+section=commands
+caption=Config Toolbar\Configure buttons...
+method=do_buttons
+
+[item3]
+section=commands
+caption=Config Toolbar\Hide standard buttons...
+method=hide_std
+
 [item10]
 section=commands
-caption=Config Toolbar\Toolbar buttons...
-method=do_buttons
+caption=Config Toolbar\-
+method=_
 
 [item12]
 section=commands

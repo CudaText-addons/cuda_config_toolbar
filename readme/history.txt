@@ -1,4 +1,7 @@
 
+2018.10.10
+* change: command "Hide standard buttons" is now in Plugins menu (removed button from dialog)
+
 2018.10.09
 * deleted huge icon-sets: Fugue 16x, FatCow 16x, Gnome 22x
 + add: icon-set Gnome (16x, 22x, 24x)

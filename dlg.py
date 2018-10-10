@@ -45,10 +45,6 @@ class DialogButtons:
         self.update_list()
         self.set_index(0)
 
-        dlg_proc(self.h_main, DLG_CTL_PROP_SET, name='btn_no_def', prop={
-            'en': not self.is_submenu,
-            })
-
         dlg_proc(self.h_main, DLG_CTL_FOCUS, name='list')
         dlg_proc(self.h_main, DLG_SCALE)
         dlg_proc(self.h_main, DLG_SHOW_MODAL)
@@ -81,14 +77,6 @@ class DialogButtons:
         self.buttons.insert(index+1, self.buttons.pop(index))
         self.set_index(index+1)
         self.update_list()
-
-
-    def call_no_def(self, id_dlg, id_ctl, data='', info=''):
-
-        res = dlg_input('Indexes of buttons, space-separated (e.g. "0 2 10 11"):', opt.hide)
-        if res is None: return
-        opt.hide = res
-        opt.do_save_ops()
 
 
     def call_del(self, id_dlg, id_ctl, data='', info=''):
@@ -275,15 +263,6 @@ class DialogButtons:
           'y': 250,
           'cap': 'Move down',
           'on_change': self.call_move_down,
-           } )
-
-        n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_no_def',
-          'x': 220,
-          'w': 200,
-          'y': 390,
-          'cap': 'Hide default buttons...',
-          'on_change': self.call_no_def,
            } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
