@@ -320,7 +320,11 @@ class DialogProps:
 
     def call_cmd(self, id_dlg, id_ctl, data='', info=''):
 
-        s = dlg_commands(COMMANDS_USUAL+COMMANDS_PLUGINS)
+        if app_api_version()<'1.0.266':
+            s = dlg_commands(COMMANDS_USUAL+COMMANDS_PLUGINS)
+        else:
+            s = dlg_commands(COMMANDS_USUAL+COMMANDS_PLUGINS+COMMANDS_CENTERED, 'Button command')
+            
         if s:
             s = s[2:]
             dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='edit_cmd', prop={'val': s})
