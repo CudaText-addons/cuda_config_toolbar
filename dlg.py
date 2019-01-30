@@ -87,19 +87,35 @@ class DialogButtons:
         self.update_list()
 
 
+    def add_data_from_dlg(self, h_dlg):
+    
+        b = {}
+        b['cap'] = dlg_proc(h_dlg, DLG_CTL_PROP_GET, name='edit_cap')['val']
+        b['hint'] = dlg_proc(h_dlg, DLG_CTL_PROP_GET, name='edit_tooltip')['val']
+        b['cmd'] = dlg_proc(h_dlg, DLG_CTL_PROP_GET, name='edit_cmd')['val']
+        b['icon'] = opt.encode_fn( dlg_proc(h_dlg, DLG_CTL_PROP_GET, name='edit_icon')['val'] )
+        b['lexers'] = dlg_proc(h_dlg, DLG_CTL_PROP_GET, name='edit_lexers')['val']
+        self.buttons.append(b)
+        self.update_list()
+
     def call_add(self, id_dlg, id_ctl, data='', info=''):
 
         d = DialogProps()
         d.show()
         if d.show_result:
-            b = {}
-            b['cap'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_cap')['val']
-            b['hint'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_tooltip')['val']
-            b['cmd'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_cmd')['val']
-            b['icon'] = opt.encode_fn( dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_icon')['val'] )
-            b['lexers'] = dlg_proc(d.h_dlg, DLG_CTL_PROP_GET, name='edit_lexers')['val']
-            self.buttons.append(b)
-            self.update_list()
+            self.add_data_from_dlg(d.h_dlg)
+
+        dlg_proc(d.h_dlg, DLG_FREE)
+
+
+    def call_add_menu(self, id_dlg, id_ctl, data='', info=''):
+
+        d = DialogProps()
+        dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='edit_cmd', prop={'val': 'menu'})
+        dlg_proc(d.h_dlg, DLG_CTL_PROP_SET, name='btn_cmd', prop={'en': False})
+        d.show()
+        if d.show_result:
+            self.add_data_from_dlg(d.h_dlg)
 
         dlg_proc(d.h_dlg, DLG_FREE)
 
@@ -212,10 +228,19 @@ class DialogButtons:
            } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_add_sep',
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_add_menu',
           'x': 220,
           'w': 200,
           'y': 40,
+          'cap': 'Add sub-menu...',
+          'on_change': self.call_add_menu,
+           } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_add_sep',
+          'x': 220,
+          'w': 200,
+          'y': 70,
           'cap': 'Add separator',
           'on_change': self.call_add_sep,
            } )
@@ -224,7 +249,7 @@ class DialogButtons:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_edit',
           'x': 220,
           'w': 200,
-          'y': 70,
+          'y': 130,
           'cap': 'Edit item...',
           'on_change': self.call_edit,
            } )
@@ -233,7 +258,7 @@ class DialogButtons:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_edit_sub',
           'x': 220,
           'w': 200,
-          'y': 100,
+          'y': 160,
           'cap': 'Edit sub-menu...',
           'on_change': self.call_edit_sub,
            } )
@@ -242,7 +267,7 @@ class DialogButtons:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_del',
           'x': 220,
           'w': 200,
-          'y': 160,
+          'y': 220,
           'cap': 'Delete item',
           'on_change': self.call_del,
            } )
@@ -251,7 +276,7 @@ class DialogButtons:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_move_up',
           'x': 220,
           'w': 200,
-          'y': 220,
+          'y': 280,
           'cap': 'Move up',
           'on_change': self.call_move_up,
            } )
@@ -260,7 +285,7 @@ class DialogButtons:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_move_down',
           'x': 220,
           'w': 200,
-          'y': 250,
+          'y': 310,
           'cap': 'Move down',
           'on_change': self.call_move_down,
            } )
@@ -320,19 +345,10 @@ class DialogProps:
 
     def call_cmd(self, id_dlg, id_ctl, data='', info=''):
 
-        if app_api_version()<'1.0.266':
-            s = dlg_commands(COMMANDS_USUAL+COMMANDS_PLUGINS)
-        else:
-            s = dlg_commands(COMMANDS_USUAL+COMMANDS_PLUGINS+COMMANDS_CENTERED, 'Button command')
-            
+        s = dlg_commands(COMMANDS_USUAL+COMMANDS_PLUGINS+COMMANDS_CENTERED, 'Button command')
         if s:
             s = s[2:]
             dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='edit_cmd', prop={'val': s})
-
-
-    def call_menu(self, id_dlg, id_ctl, data='', info=''):
-
-        dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='edit_cmd', prop={'val': 'menu'})
 
 
     def set_icon(self, filename):
@@ -430,15 +446,6 @@ class DialogProps:
           'w': 180,
           'cap': 'Choose command...',
           'on_change': self.call_cmd,
-          } )
-
-        n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_cmd_menu',
-          'x': 340,
-          'y': 100,
-          'w': 180,
-          'cap': 'Use sub-menu',
-          'on_change': self.call_menu,
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')

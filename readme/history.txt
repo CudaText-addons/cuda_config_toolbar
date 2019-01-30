@@ -1,4 +1,7 @@
 
+2019.01.30
++ add: better UI to add sub-menu: new button "Add sub-menu"
+
 2018.12.01
 + add: show Commands dialog centered and with title (on CudaText 1.67+)
 
