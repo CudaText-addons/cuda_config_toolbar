@@ -51,6 +51,7 @@ def do_load_buttons(buttons):
     imglist = toolbar_proc('top', TOOLBAR_GET_IMAGELIST)
 
     get_toolbar_content()
+    cnt = get_count()
 
     for (index, b) in enumerate(buttons):
         fn = opt.decode_fn(b['icon'])
@@ -69,42 +70,33 @@ def do_load_buttons(buttons):
         if is_button_present(b['cap'], _cmd):
             continue
 
-        if True:
-            if is_menu:
-                toolbar_proc('top', TOOLBAR_ADD_MENU)
-            else:
-                toolbar_proc('top', TOOLBAR_ADD_ITEM)
-
-            btn = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE,
-                index=get_count()-1 )
-            nkind = BTNKIND_SEP_HORZ if b['cap']=='-' \
-                else BTNKIND_TEXT_ONLY if imageindex<0 \
-                else BTNKIND_ICON_ONLY if not b['cap'] \
-                else BTNKIND_TEXT_ICON_HORZ
-
-            button_proc(btn, BTN_SET_TEXT, b['cap'])
-            button_proc(btn, BTN_SET_HINT, b['hint'])
-            button_proc(btn, BTN_SET_DATA1, _cmd)
-            button_proc(btn, BTN_SET_DATA2, b.get('lexers', ''))
-            button_proc(btn, BTN_SET_IMAGEINDEX, imageindex)
-            button_proc(btn, BTN_SET_KIND, nkind)
-
-            if b['cap']:
-                button_proc(btn, BTN_SET_ARROW_ALIGN, 'R')
-
-            toolbar_proc('top', TOOLBAR_UPDATE)
-
+        if is_menu:
+            toolbar_proc('top', TOOLBAR_ADD_MENU)
         else:
-            #---del this block later
-            toolbar_proc('top', TOOLBAR_ADD_BUTTON,
-                text = b['cap'],
-                text2 = b['hint'],
-                command = _cmd,
-                index2 = imageindex
-                )
+            toolbar_proc('top', TOOLBAR_ADD_ITEM)
+
+        cnt += 1
+        btn = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE,
+            index=cnt-1 )
+        nkind = BTNKIND_SEP_HORZ if b['cap']=='-' \
+            else BTNKIND_TEXT_ONLY if imageindex<0 \
+            else BTNKIND_ICON_ONLY if not b['cap'] \
+            else BTNKIND_TEXT_ICON_HORZ
+
+        button_proc(btn, BTN_SET_TEXT, b['cap'])
+        button_proc(btn, BTN_SET_HINT, b['hint'])
+        button_proc(btn, BTN_SET_DATA1, _cmd)
+        button_proc(btn, BTN_SET_DATA2, b.get('lexers', ''))
+        button_proc(btn, BTN_SET_IMAGEINDEX, imageindex)
+        button_proc(btn, BTN_SET_KIND, nkind)
+
+        if b['cap']:
+            button_proc(btn, BTN_SET_ARROW_ALIGN, 'R')
 
         if is_menu:
             do_load_submenu(_cmd, b.get('sub', []))
+
+    toolbar_proc('top', TOOLBAR_UPDATE)
 
 
 def do_update_buttons_visible():

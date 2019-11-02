@@ -1,4 +1,7 @@
 
+2019.11.02
+- fix: slow loading of config
+
 2019.01.30
 + add: better UI to add sub-menu: new button "Add sub-menu"
 
