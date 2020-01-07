@@ -158,15 +158,15 @@ class Command:
                     toolbar_proc('top', TOOLBAR_DELETE_BUTTON, index=i)
 
             self.std_count = get_count()
-            self.apply_user_buttons()
+            self.apply_user_buttons(False)
 
             if vis:
                 app_proc(PROC_SHOW_TOOLBAR_SET, True)
             tick = (time.monotonic() - tick) * 1000
-            print('Loading toolbar config: %d ms' % tick)
+            print('Loading toolbar config (%dms)' % tick)
 
 
-    def apply_user_buttons(self):
+    def apply_user_buttons(self, upd_btn_visible=True):
 
         # delete old user buttons
         for i in reversed(range(self.std_count, get_count())):
@@ -175,7 +175,8 @@ class Command:
         buttons = opt.options.get('sub', [])
         if buttons:
             do_load_buttons(buttons)
-            do_update_buttons_visible()
+            if upd_btn_visible:
+                do_update_buttons_visible()
 
 
     def on_lexer(self, ed_self):
