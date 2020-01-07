@@ -14,6 +14,5 @@ Notes:
 - dialog field "Visible for lexers" needs comma-separated lexer names, in any case. None-lexer must be specified as "-" char. Empty field: button is always visible.
 - buttons cannot be changed during configuring time, they will be changed after CudaText restart.
 
-
-Author: Alexey T.
+Author: Alexey Torgashin (CudaText)
 License: MIT
