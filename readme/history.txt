@@ -1,4 +1,7 @@
 
+2020.01.07
+- fix: slow CudaText start
+
 2019.11.02
 - fix: slow loading of config
 

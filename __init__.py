@@ -1,4 +1,5 @@
 import os
+import time
 from cudatext import *
 from . import opt
 from . import dlg
@@ -47,7 +48,6 @@ def is_button_present(caption, command):
 
 def do_load_buttons(buttons):
 
-    print('Loading toolbar config')
     imglist = toolbar_proc('top', TOOLBAR_GET_IMAGELIST)
 
     get_toolbar_content()
@@ -141,6 +141,13 @@ class Command:
         self.std_count = get_count()
 
         if os.path.isfile(opt.fn_config):
+            tick = time.monotonic()
+
+            # Cud <=1.92.0 had slowdown with ConfigToolbar
+            vis = app_proc(PROC_SHOW_TOOLBAR_GET, '')
+            if vis:
+                app_proc(PROC_SHOW_TOOLBAR_SET, False)
+
             opt.do_load_ops()
 
             hide_list = opt.hide.split(' ')
@@ -152,6 +159,11 @@ class Command:
 
             self.std_count = get_count()
             self.apply_user_buttons()
+
+            if vis:
+                app_proc(PROC_SHOW_TOOLBAR_SET, True)
+            tick = (time.monotonic() - tick) * 1000
+            print('Loading toolbar config: %d ms' % tick)
 
 
     def apply_user_buttons(self):
