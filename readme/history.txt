@@ -1,4 +1,7 @@
 
+2020.05.15
++ add: optimize "imports" so faster CudaText start
+
 2020.01.07
 - fix: slow CudaText start
 
