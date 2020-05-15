@@ -2,10 +2,6 @@ import os
 import time
 from cudatext import *
 from . import opt
-from . import dlg
-import cudatext_cmd as cmds
-import cudax_lib as appx
-
 
 def get_count():
 
@@ -126,6 +122,7 @@ class Command:
 
     def do_buttons(self):
 
+        from . import dlg
         d = dlg.DialogButtons()
         d.buttons = list(opt.options['sub']) #copy object
         d.show()
@@ -189,6 +186,8 @@ class Command:
 
 
     def _choose_icons(self, icon_dir, icon_option, icon_def):
+
+        import cudax_lib as appx
 
         dir = os.path.join(app_path(APP_DIR_DATA), icon_dir)
         dirs = sorted(os.listdir(dir))
