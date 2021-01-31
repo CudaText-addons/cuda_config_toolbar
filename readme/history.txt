@@ -1,4 +1,7 @@
 
+2021.01.31
++ add: support translations (patch from Markus F.)
+
 2020.05.15
 + add: optimize "imports" so faster CudaText start
 
