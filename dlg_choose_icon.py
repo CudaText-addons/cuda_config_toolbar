@@ -1,6 +1,9 @@
 import os
 from cudatext import *
 
+from cudax_lib import get_translation
+_   = get_translation(__file__)  # I18N
+
 CHOOSE_FORM_W = 300
 CHOOSE_FORM_H = 580
 CHOOSE_COLOR_LIST = 0xFFFFFF
@@ -45,10 +48,10 @@ class DialogChooseIcon:
         dirs = d1+d2
 
         d1_nice = [os.path.basename(f) for f in d1]
-        d2_nice = [os.path.basename(f)+' (additional)' for f in d2]
+        d2_nice = [os.path.basename(f)+_(' (additional)') for f in d2]
         d_nice = d1_nice+d2_nice
 
-        res = dlg_menu(MENU_LIST, d_nice, caption='Choose icon set')
+        res = dlg_menu(MENU_LIST, d_nice, caption=_('Choose icon set'))
         if res is not None:
             return dirs[res]
 
@@ -62,7 +65,7 @@ class DialogChooseIcon:
 
 
     def update_filter(self):
-        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='filter', prop={'cap': 'Filter: '+self.filter})
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='filter', prop={'cap': _('Filter: ')+self.filter})
 
         listbox_proc(self.h_list, LISTBOX_DELETE_ALL)
 
@@ -129,7 +132,7 @@ class DialogChooseIcon:
     def init_dlg(self):
 
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'Choose icon',
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':_('Choose icon'),
           'w':CHOOSE_FORM_W,
           'h':CHOOSE_FORM_H,
           'on_key_down': self.callback_keydown,

@@ -4,6 +4,9 @@ from shutil import copyfile
 from . import opt
 from . import dlg_choose_icon
 
+from cudax_lib import get_translation
+_   = get_translation(__file__)  # i18n
+
 
 class DialogButtons:
 
@@ -207,7 +210,7 @@ class DialogButtons:
     def __init__(self):
 
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'Configure toolbar', 'w': 430, 'h': 500 })
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':_('Configure toolbar'), 'w': 430, 'h': 500 })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'listbox')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'list',
@@ -223,7 +226,7 @@ class DialogButtons:
           'x': 220,
           'w': 200,
           'y': 10,
-          'cap': 'Add item...',
+          'cap': _('Add item...'),
           'on_change': self.call_add,
            } )
 
@@ -232,7 +235,7 @@ class DialogButtons:
           'x': 220,
           'w': 200,
           'y': 40,
-          'cap': 'Add sub-menu...',
+          'cap': _('Add sub-menu...'),
           'on_change': self.call_add_menu,
            } )
 
@@ -241,7 +244,7 @@ class DialogButtons:
           'x': 220,
           'w': 200,
           'y': 70,
-          'cap': 'Add separator',
+          'cap': _('Add separator'),
           'on_change': self.call_add_sep,
            } )
 
@@ -250,7 +253,7 @@ class DialogButtons:
           'x': 220,
           'w': 200,
           'y': 130,
-          'cap': 'Edit item...',
+          'cap': _('Edit item...'),
           'on_change': self.call_edit,
            } )
 
@@ -259,7 +262,7 @@ class DialogButtons:
           'x': 220,
           'w': 200,
           'y': 160,
-          'cap': 'Edit sub-menu...',
+          'cap': _('Edit sub-menu...'),
           'on_change': self.call_edit_sub,
            } )
 
@@ -268,7 +271,7 @@ class DialogButtons:
           'x': 220,
           'w': 200,
           'y': 220,
-          'cap': 'Delete item',
+          'cap': _('Delete item'),
           'on_change': self.call_del,
            } )
 
@@ -277,7 +280,7 @@ class DialogButtons:
           'x': 220,
           'w': 200,
           'y': 280,
-          'cap': 'Move up',
+          'cap': _('Move up'),
           'on_change': self.call_move_up,
            } )
 
@@ -286,7 +289,7 @@ class DialogButtons:
           'x': 220,
           'w': 200,
           'y': 310,
-          'cap': 'Move down',
+          'cap': _('Move down'),
           'on_change': self.call_move_down,
            } )
 
@@ -295,7 +298,7 @@ class DialogButtons:
           'x': 220,
           'w': 200,
           'y': 430,
-          'cap': 'OK',
+          'cap': _('OK'),
           'on_change': self.call_ok,
            } )
 
@@ -304,7 +307,7 @@ class DialogButtons:
           'x': 220,
           'w': 200,
           'y': 460,
-          'cap': 'Cancel',
+          'cap': _('Cancel'),
           'on_change': self.call_cancel,
            } )
 
@@ -331,7 +334,7 @@ class DialogProps:
         prop1 = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='edit_cap')
         prop2 = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='edit_icon')
         if not prop1['val'] and not prop2['val']:
-            msg_box('Button must have non-empty caption and/or icon', MB_OK+MB_ICONWARNING)
+            msg_box(_('Button must have non-empty caption and/or icon'), MB_OK+MB_ICONWARNING)
             return
 
         self.show_result = True
@@ -345,7 +348,7 @@ class DialogProps:
 
     def call_cmd(self, id_dlg, id_ctl, data='', info=''):
 
-        s = dlg_commands(COMMANDS_USUAL+COMMANDS_PLUGINS+COMMANDS_CENTERED, 'Button command')
+        s = dlg_commands(COMMANDS_USUAL+COMMANDS_PLUGINS+COMMANDS_CENTERED, _('Button command'))
         if s:
             s = s[2:]
             dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='edit_cmd', prop={'val': s})
@@ -373,7 +376,7 @@ class DialogProps:
 
     def call_icon_file(self, id_dlg, id_ctl, data='', info=''):
 
-        res = dlg_file(True, '', '', 'PNG files|*.png')
+        res = dlg_file(True, '', '', _('PNG files')+'|*.png')
         if not res: return
         self.set_icon(res)
 
@@ -391,14 +394,14 @@ class DialogProps:
     def __init__(self):
 
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'Button properties', 'w': 600, 'h': 325 })
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':_('Button properties'), 'w': 600, 'h': 325 })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_cap',
           'x': 10,
           'y': 10,
           'w': 130,
-          'cap': 'Caption:',
+          'cap': _('Caption:'),
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
@@ -413,7 +416,7 @@ class DialogProps:
           'x': 10,
           'y': 40,
           'w': 130,
-          'cap': 'Tooltip:',
+          'cap': _('Tooltip:'),
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
@@ -428,7 +431,7 @@ class DialogProps:
           'x': 10,
           'y': 70,
           'w': 130,
-          'cap': 'Command:',
+          'cap': _('Command:'),
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
@@ -444,7 +447,7 @@ class DialogProps:
           'x': 150,
           'y': 100,
           'w': 180,
-          'cap': 'Choose command...',
+          'cap': _('Choose command...'),
           'on_change': self.call_cmd,
           } )
 
@@ -453,7 +456,7 @@ class DialogProps:
           'x': 10,
           'y': 130,
           'w': 130,
-          'cap': 'Icon:',
+          'cap': _('Icon:'),
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
@@ -465,7 +468,7 @@ class DialogProps:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_op_hint',
-          'cap': '{op} - path to "settings" dir',
+          'cap': _('{op} - path to "settings" dir'),
           'x': 150,
           'y': 160,
           'w': 400,
@@ -476,7 +479,7 @@ class DialogProps:
           'x': 150,
           'y': 182,
           'w': 180,
-          'cap': 'Choose from icon set...',
+          'cap': _('Choose from icon set...'),
           'on_change': self.call_icon,
           } )
 
@@ -485,7 +488,7 @@ class DialogProps:
           'x': 340,
           'y': 182,
           'w': 180,
-          'cap': 'Choose from file...',
+          'cap': _('Choose from file...'),
           'on_change': self.call_icon_file,
           } )
 
@@ -494,7 +497,7 @@ class DialogProps:
           'x': 150,
           'y': 212,
           'w': 600,
-          'cap': 'To enable more icon sets, install "toolbarxicons" add-ons',
+          'cap': _('To enable more icon sets, install "toolbarxicons" add-ons'),
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
@@ -502,7 +505,7 @@ class DialogProps:
           'x': 10,
           'y': 240,
           'w': 140,
-          'cap': 'Visible for lexers:\n(comma-separated)',
+          'cap': _('Visible for lexers:\n(comma-separated)'),
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
@@ -517,7 +520,7 @@ class DialogProps:
           'x': 380,
           'y': 290,
           'w': 100,
-          'cap': 'OK',
+          'cap': _('OK'),
           'props': True,
           'on_change': self.call_ok,
           } )
@@ -527,7 +530,7 @@ class DialogProps:
           'x': 490,
           'y': 290,
           'w': 100,
-          'cap': 'Cancel',
+          'cap': _('Cancel'),
           'on_change': self.call_cancel,
           } )
 

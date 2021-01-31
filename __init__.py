@@ -3,6 +3,10 @@ import time
 from cudatext import *
 from . import opt
 
+from cudax_lib import get_translation
+_   = get_translation(__file__)  # I18N
+
+
 def get_count():
 
     return toolbar_proc('top', TOOLBAR_GET_COUNT)
@@ -160,7 +164,7 @@ class Command:
             if vis:
                 app_proc(PROC_SHOW_TOOLBAR_SET, True)
             tick = (time.monotonic() - tick) * 1000
-            print('Loading toolbar config (%dms)' % tick)
+            print(_('Loading toolbar config (%dms)') % tick)
 
 
     def apply_user_buttons(self, upd_btn_visible=True):
@@ -206,9 +210,9 @@ class Command:
         appx.set_opt(icon_option, s, appx.CONFIG_LEV_USER)
         s_now = appx.get_opt(icon_option)
         if s != s_now:
-            msg_box('Error writing option to user.json\nGot value "{}"'.format(s_now), MB_OK+MB_ICONERROR)
+            msg_box(_('Error writing option to user.json\nGot value "{}"').format(s_now), MB_OK+MB_ICONERROR)
         else:
-            msg_box('Changed option in user.json, restart app to see effect', MB_OK+MB_ICONINFO)
+            msg_box(_('Changed option in user.json, restart app to see effect'), MB_OK+MB_ICONINFO)
 
 
     def icons_toolbar(self):
@@ -222,8 +226,8 @@ class Command:
 
     def hide_std(self):
 
-        res = dlg_input('Indexes of buttons to hide, space-separated (e.g. "0 2 10 11"):', opt.hide)
+        res = dlg_input(_('Indexes of buttons to hide, space-separated (e.g. "0 2 10 11"):'), opt.hide)
         if res is None: return
         opt.hide = res
         opt.do_save_ops()
-        msg_box('Option will be applied after app restart', MB_OK+MB_ICONINFO)
+        msg_box(_('Option will be applied after app restart'), MB_OK+MB_ICONINFO)
