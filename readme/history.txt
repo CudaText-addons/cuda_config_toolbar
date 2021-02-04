@@ -1,4 +1,7 @@
 
+2021.02.04
++ add: folder data/toolbaricons is also searched in dialog of custom icons (patch by Markus F.)
+
 2021.01.31
 + add: support translations (patch from Markus F.)
 

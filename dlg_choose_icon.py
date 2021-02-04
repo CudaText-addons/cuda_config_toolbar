@@ -9,6 +9,7 @@ CHOOSE_FORM_H = 580
 CHOOSE_COLOR_LIST = 0xFFFFFF
 CHOOSE_COLOR_SEL = 0xE0A0A0
 
+DIR_ICONS = os.path.join(app_path(APP_DIR_DATA), 'toolbaricons')
 DIR_XICONS = os.path.join(app_path(APP_DIR_DATA), 'toolbarxicons')
 
 
@@ -44,12 +45,14 @@ class DialogChooseIcon:
     def get_iconset(self, basedir):
 
         d1 = get_dirs_in(basedir)
-        d2 = get_dirs_in(DIR_XICONS)
-        dirs = d1+d2
+        d2 = get_dirs_in(DIR_ICONS)
+        d3 = get_dirs_in(DIR_XICONS)
+        dirs = d1 + d2 + d3
 
         d1_nice = [os.path.basename(f) for f in d1]
         d2_nice = [os.path.basename(f)+_(' (additional)') for f in d2]
-        d_nice = d1_nice+d2_nice
+        d3_nice = [os.path.basename(f)+_(' (additional)') for f in d3]
+        d_nice = d1_nice + d2_nice + d3_nice
 
         res = dlg_menu(MENU_LIST, d_nice, caption=_('Choose icon set'))
         if res is not None:
