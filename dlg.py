@@ -439,7 +439,9 @@ class DialogProps:
           'x': 150,
           'y': 68,
           'w': 440,
-          'props': (True, False, True),
+          'ex0': True, 
+          'ex1': False, 
+          'ex2': True,
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
@@ -521,7 +523,7 @@ class DialogProps:
           'y': 290,
           'w': 100,
           'cap': _('OK'),
-          'props': True,
+          'ex0': True,
           'on_change': self.call_ok,
           } )
 

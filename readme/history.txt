@@ -1,4 +1,7 @@
 
+2021.03.06
+- fix: avoid deprecated API
+
 2021.02.04
 + add: folder data/toolbaricons is also searched in dialog of custom icons (patch by Markus F.)
 
