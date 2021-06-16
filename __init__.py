@@ -203,7 +203,7 @@ class Command:
         except:
             index = -1
 
-        res = dlg_menu(MENU_LIST, dirs, focused=index)
+        res = dlg_menu(DMENU_LIST, dirs, focused=index)
         if res is None: return
 
         s = dirs[res]

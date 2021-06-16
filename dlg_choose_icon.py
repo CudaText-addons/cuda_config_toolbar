@@ -54,7 +54,7 @@ class DialogChooseIcon:
         d3_nice = [os.path.basename(f)+_(' (additional)') for f in d3]
         d_nice = d1_nice + d2_nice + d3_nice
 
-        res = dlg_menu(MENU_LIST, d_nice, caption=_('Choose icon set'))
+        res = dlg_menu(DMENU_LIST, d_nice, caption=_('Choose icon set'))
         if res is not None:
             return dirs[res]
 
