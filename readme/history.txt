@@ -1,4 +1,7 @@
 
+2021.09.20
++ add: support button callback in form 'exec=command_line_here' for CudaText 1.145.1+
+
 2021.03.06
 - fix: avoid deprecated API
 

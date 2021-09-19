@@ -354,6 +354,22 @@ class DialogProps:
             dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='edit_cmd', prop={'val': s})
 
 
+    def call_cmdline(self, id_dlg, id_ctl, data='', info=''):
+        
+        prefix = 'exec='
+        prop = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='edit_cmd')
+        old_val = prop['val']
+        if old_val.startswith(prefix):
+            old_val = old_val[len(prefix):]
+        else:
+            old_val = ''
+
+        s = dlg_input(_('Command line parameter(s):'), old_val)
+        if s is not None:
+            new_val = (prefix+s) if s else ''
+            dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='edit_cmd', prop={'val': new_val})
+
+
     def set_icon(self, filename):
 
         dir_sett = app_path(APP_DIR_SETTINGS)
@@ -451,6 +467,16 @@ class DialogProps:
           'w': 180,
           'cap': _('Choose command...'),
           'on_change': self.call_cmd,
+          } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_cmdline',
+          'x': 340,
+          'y': 100,
+          'w': 180,
+          'cap': _('Enter command line...'),
+          'on_change': self.call_cmdline,
+          'en': app_api_version() >= '1.0.411',
           } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
