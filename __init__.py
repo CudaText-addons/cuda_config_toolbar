@@ -6,10 +6,11 @@ from . import opt
 from cudax_lib import get_translation
 _   = get_translation(__file__)  # I18N
 
+bar_h = app_proc(PROC_GET_MAIN_TOOLBAR, '')
 
 def get_count():
 
-    return toolbar_proc('top', TOOLBAR_GET_COUNT)
+    return toolbar_proc(bar_h, TOOLBAR_GET_COUNT)
 
 
 def do_load_submenu(id_menu, items):
@@ -32,7 +33,7 @@ def get_toolbar_content():
     global _content
     _content = []
     for index in range(get_count()):
-        h = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE, index=index)
+        h = toolbar_proc(bar_h, TOOLBAR_GET_BUTTON_HANDLE, index=index)
         cap = button_proc(h, BTN_GET_TEXT)
         cmd = button_proc(h, BTN_GET_DATA1)
         _content += [(cap, cmd)]
@@ -48,7 +49,7 @@ def is_button_present(caption, command):
 
 def do_load_buttons(buttons):
 
-    imglist = toolbar_proc('top', TOOLBAR_GET_IMAGELIST)
+    imglist = toolbar_proc(bar_h, TOOLBAR_GET_IMAGELIST)
 
     get_toolbar_content()
     cnt = get_count()
@@ -71,12 +72,12 @@ def do_load_buttons(buttons):
             continue
 
         if is_menu:
-            toolbar_proc('top', TOOLBAR_ADD_MENU)
+            toolbar_proc(bar_h, TOOLBAR_ADD_MENU)
         else:
-            toolbar_proc('top', TOOLBAR_ADD_ITEM)
+            toolbar_proc(bar_h, TOOLBAR_ADD_ITEM)
 
         cnt += 1
-        btn = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE,
+        btn = toolbar_proc(bar_h, TOOLBAR_GET_BUTTON_HANDLE,
             index=cnt-1 )
         nkind = BTNKIND_SEP_HORZ if b['cap']=='-' \
             else BTNKIND_TEXT_ONLY if imageindex<0 \
@@ -96,7 +97,7 @@ def do_load_buttons(buttons):
         if is_menu:
             do_load_submenu(_cmd, b.get('sub', []))
 
-    toolbar_proc('top', TOOLBAR_UPDATE)
+    toolbar_proc(bar_h, TOOLBAR_UPDATE)
 
 
 def do_update_buttons_visible():
@@ -109,7 +110,7 @@ def do_update_buttons_visible():
     cnt = get_count()
 
     for i in range(cnt):
-        btn = toolbar_proc('top', TOOLBAR_GET_BUTTON_HANDLE, index=i)
+        btn = toolbar_proc(bar_h, TOOLBAR_GET_BUTTON_HANDLE, index=i)
         lexers = button_proc(btn, BTN_GET_DATA2)
         if not lexers: continue
         vis_now = ','+cur_lexer+',' in ','+lexers.lower()+','
@@ -119,7 +120,7 @@ def do_update_buttons_visible():
             button_proc(btn, BTN_SET_VISIBLE, vis_now)
 
     if update_needed:
-        toolbar_proc('top', TOOLBAR_UPDATE)
+        toolbar_proc(bar_h, TOOLBAR_UPDATE)
 
 
 class Command:
@@ -156,7 +157,7 @@ class Command:
             if hide_list:
                 hide_list = reversed(sorted(list(map(int, hide_list))))
                 for i in hide_list:
-                    toolbar_proc('top', TOOLBAR_DELETE_BUTTON, index=i)
+                    toolbar_proc(bar_h, TOOLBAR_DELETE_BUTTON, index=i)
 
             self.std_count = get_count()
             self.apply_user_buttons(False)
@@ -171,7 +172,7 @@ class Command:
 
         # delete old user buttons
         for i in reversed(range(self.std_count, get_count())):
-            toolbar_proc('top', TOOLBAR_DELETE_BUTTON, index=i)
+            toolbar_proc(bar_h, TOOLBAR_DELETE_BUTTON, index=i)
 
         buttons = opt.options.get('sub', [])
         if buttons:
