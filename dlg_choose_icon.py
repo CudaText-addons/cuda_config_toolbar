@@ -81,6 +81,17 @@ class DialogChooseIcon:
         listbox_proc(self.h_list, LISTBOX_SET_SEL, index=0)
 
 
+    def callback_ok_click(self, id_dlg, id_ctl, data='', info=''):
+
+        index_sel = listbox_proc(self.h_list, LISTBOX_GET_SEL)
+        item = listbox_proc(self.h_list, LISTBOX_GET_ITEM, index=index_sel)
+        if not item: return
+        item_text = item[0]
+
+        self.result = os.path.join(self.filedir, item_text+'.png')
+        dlg_proc(self.h_dlg, DLG_HIDE)
+
+
     def callback_keydown(self, id_dlg, id_ctl, data='', info=''):
 
         #react to text
@@ -97,13 +108,7 @@ class DialogChooseIcon:
 
         #react to Enter
         if id_ctl==13:
-            index_sel = listbox_proc(self.h_list, LISTBOX_GET_SEL)
-            item = listbox_proc(self.h_list, LISTBOX_GET_ITEM, index=index_sel)
-            if not item: return
-            item_text = item[0]
-
-            self.result = os.path.join(self.filedir, item_text+'.png')
-            dlg_proc(self.h_dlg, DLG_HIDE)
+            self.callback_ok_click(id_dlg, id_ctl, data, info)
 
 
     def callback_listbox_drawitem(self, id_dlg, id_ctl, data='', info=''):
@@ -158,6 +163,14 @@ class DialogChooseIcon:
 
         self.h_list = dlg_proc(h, DLG_CTL_HANDLE, index=n)
         dlg_proc(h, DLG_CTL_FOCUS, index=n)
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok',
+            'align': ALIGN_BOTTOM,
+            'cap': _('OK'),
+            'sp_a': 6,
+            'on_change': self.callback_ok_click,
+            })
 
         listbox_proc(self.h_list, LISTBOX_SET_DRAWN, index=1)
 

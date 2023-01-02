@@ -1,4 +1,8 @@
 
+2023.01.02
++ add: dialog "choose icon" has OK button
+- fix: button with custom lexer is still visible if CudaText opens without files
+
 2022.09.17
 - fix: avoid deprecated API
 
