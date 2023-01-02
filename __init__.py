@@ -160,7 +160,7 @@ class Command:
                     toolbar_proc(bar_h, TOOLBAR_DELETE_BUTTON, index=i)
 
             self.std_count = get_count()
-            self.apply_user_buttons(False)
+            self.apply_user_buttons(True)
 
             if vis:
                 app_proc(PROC_SHOW_TOOLBAR_SET, True)
