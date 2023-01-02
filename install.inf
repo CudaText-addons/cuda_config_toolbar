@@ -4,11 +4,10 @@ desc=Configures main toolbar in CudaText: icon-set and buttons
 type=cudatext-plugin
 subdir=cuda_config_toolbar
 homepage=https://github.com/CudaText-addons/cuda_config_toolbar
-api=1.0.266
 
 [item1]
 section=events
-events=on_start,on_lexer,on_focus
+events=on_start,on_lexer,on_focus,on_open
 
 [item2]
 section=commands

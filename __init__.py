@@ -189,6 +189,10 @@ class Command:
 
         do_update_buttons_visible()
 
+    def on_open(self, ed_self):
+
+        do_update_buttons_visible()
+
 
     def _choose_icons(self, icon_dir, icon_option, icon_def):
 
