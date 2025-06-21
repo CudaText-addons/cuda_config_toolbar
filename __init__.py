@@ -125,6 +125,8 @@ def do_update_buttons_visible():
 
 class Command:
 
+    std_count = 0
+
     def do_buttons(self):
 
         from . import dlg
