@@ -125,7 +125,9 @@ def do_update_buttons_visible():
 
 class Command:
 
-    std_count = 0
+    def __init__(self):
+
+        self.std_count = get_count()
 
     def do_buttons(self):
 
@@ -161,7 +163,6 @@ class Command:
                 for i in hide_list:
                     toolbar_proc(bar_h, TOOLBAR_DELETE_BUTTON, index=i)
 
-            self.std_count = get_count()
             self.apply_user_buttons(True)
 
             if vis:
