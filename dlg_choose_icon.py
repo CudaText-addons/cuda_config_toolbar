@@ -84,9 +84,9 @@ class DialogChooseIcon:
     def callback_ok_click(self, id_dlg, id_ctl, data='', info=''):
 
         index_sel = listbox_proc(self.h_list, LISTBOX_GET_SEL)
-        item = listbox_proc(self.h_list, LISTBOX_GET_ITEM, index=index_sel)
+        item = listbox_proc(self.h_list, LISTBOX_GET_ITEM_PROP, index=index_sel)
         if not item: return
-        item_text = item[0]
+        item_text = item['text']
 
         self.result = os.path.join(self.filedir, item_text+'.png')
         dlg_proc(self.h_dlg, DLG_HIDE)
@@ -117,7 +117,7 @@ class DialogChooseIcon:
         index = data['index']
         rect = data['rect']
         index_sel = listbox_proc(self.h_list, LISTBOX_GET_SEL)
-        item_text = listbox_proc(self.h_list, LISTBOX_GET_ITEM, index=index)[0]
+        item_text = listbox_proc(self.h_list, LISTBOX_GET_ITEM_PROP, index=index)['text']
 
         if index==index_sel:
             back_color = CHOOSE_COLOR_SEL
