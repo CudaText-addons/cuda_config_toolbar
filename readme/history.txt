@@ -1,3 +1,5 @@
+2025.11.20
+- fix: avoid deprecated API
 
 2023.01.02
 + add: dialog "choose icon" has OK button
