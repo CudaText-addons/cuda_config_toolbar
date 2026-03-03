@@ -30,6 +30,8 @@ _content = []
 _standard_content = []
 _hidden = _("Hidden")
 _visible = _("Visible")
+_s_separator = _('(separator)')
+_s_dropdown = _('(dropdown)')
 
 def get_toolbar_content():
 
@@ -52,10 +54,10 @@ def save_standard_content():
         text += button_proc(btn, BTN_GET_HINT) or button_proc(btn, BTN_GET_TEXT)
         kind = button_proc(btn, BTN_GET_KIND)
         if kind == BTNKIND_SEP_HORZ or kind == BTNKIND_SEP_VERT:
-            text += '(separator)'
+            text += _s_separator
         dropdown = button_proc(btn, BTN_GET_ARROW)
         if dropdown:
-            text += '(dropdown)'
+            text += _s_dropdown
         _standard_content.append(text+"\t"+_visible)
 
 def is_button_present(caption, command):
