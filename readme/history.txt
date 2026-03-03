@@ -1,3 +1,6 @@
+2026.03.03
++ add: Hiding standard toolbar buttons is now a lot easier
+
 2025.11.20
 - fix: avoid deprecated API
 

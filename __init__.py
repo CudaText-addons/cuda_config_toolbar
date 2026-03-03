@@ -27,6 +27,9 @@ def do_load_submenu(id_menu, items):
 
 
 _content = []
+_standard_content = []
+_hidden = _("Hidden")
+_visible = _("Visible")
 
 def get_toolbar_content():
 
@@ -38,6 +41,22 @@ def get_toolbar_content():
         cmd = button_proc(h, BTN_GET_DATA1)
         _content += [(cap, cmd)]
 
+def save_standard_content():
+
+    global _standard_content
+    _standard_content = []
+
+    for index in range(get_count()):
+        btn = toolbar_proc(bar_h, TOOLBAR_GET_BUTTON_HANDLE, index=index)
+        text = str(index) + ": "
+        text += button_proc(btn, BTN_GET_HINT) or button_proc(btn, BTN_GET_TEXT)
+        kind = button_proc(btn, BTN_GET_KIND)
+        if kind == BTNKIND_SEP_HORZ or kind == BTNKIND_SEP_VERT:
+            text += '(separator)'
+        dropdown = button_proc(btn, BTN_GET_ARROW)
+        if dropdown:
+            text += '(dropdown)'
+        _standard_content.append(text+"\t"+_visible)
 
 def is_button_present(caption, command):
 
@@ -155,12 +174,18 @@ class Command:
                 app_proc(PROC_SHOW_TOOLBAR_SET, False)
 
             opt.do_load_ops()
+            
+            save_standard_content()
 
             hide_list = opt.hide.split(' ')
             hide_list = [i for i in hide_list if i]
             if hide_list:
-                hide_list = reversed(sorted(list(map(int, hide_list))))
+                hide_list = list(sorted(list(map(int, hide_list))))
+                global _standard_content
                 for i in hide_list:
+                    _standard_content[i] = _standard_content[i].replace("\t"+_visible, "\t"+_hidden)
+
+                for i in reversed(hide_list):
                     toolbar_proc(bar_h, TOOLBAR_DELETE_BUTTON, index=i)
 
             self.apply_user_buttons(True)
@@ -234,8 +259,25 @@ class Command:
 
     def hide_std(self):
 
-        res = dlg_input(_('Indexes of buttons to hide, space-separated (e.g. "0 2 10 11"):'), opt.hide)
-        if res is None: return
-        opt.hide = res
-        opt.do_save_ops()
-        msg_box(_('Option will be applied after app restart'), MB_OK+MB_ICONINFO)
+        index = -1
+        while True:
+            index = dlg_menu(DMENU_LIST, _standard_content, focused=index, caption=_('Hide standard buttons. Will be applied after app restart.'))
+            if index is None:
+                return
+
+            hide_list = opt.hide.split()
+            if hide_list:
+                hide_list = list(sorted(list(map(int, hide_list))))
+            hide_list = set(hide_list)
+
+            if _standard_content[index].endswith('\t'+_hidden):
+                hide_list.discard(index)
+                _standard_content[index] = _standard_content[index].replace('\t'+_hidden, '\t'+_visible)
+            else:
+                hide_list.add(index)
+                _standard_content[index] = _standard_content[index].replace('\t'+_visible, '\t'+_hidden)
+
+            opt.hide = ' '.join(map(str, sorted(hide_list)))
+            opt.do_save_ops()
+        
+        
