@@ -1,5 +1,5 @@
 2026.03.03
-+ add: Hiding standard toolbar buttons is now a lot easier
++ add: hiding standard toolbar buttons now shows a new easier dialog (patch by @veksha)
 
 2025.11.20
 - fix: avoid deprecated API
