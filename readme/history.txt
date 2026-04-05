@@ -1,3 +1,6 @@
+2026.04.05
+- fix: range-check error
+
 2026.03.03
 + add: hiding standard toolbar buttons now shows a new easier dialog (patch by @veksha)
 
