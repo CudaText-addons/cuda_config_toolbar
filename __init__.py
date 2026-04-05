@@ -185,7 +185,8 @@ class Command:
                 hide_list = list(sorted(list(map(int, hide_list))))
                 global _standard_content
                 for i in hide_list:
-                    _standard_content[i] = _standard_content[i].replace("\t"+_visible, "\t"+_hidden)
+                    if 0 <= i < len(_standard_content):
+                        _standard_content[i] = _standard_content[i].replace("\t"+_visible, "\t"+_hidden)
 
                 for i in reversed(hide_list):
                     toolbar_proc(bar_h, TOOLBAR_DELETE_BUTTON, index=i)
