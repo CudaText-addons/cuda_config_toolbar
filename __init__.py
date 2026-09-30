@@ -112,7 +112,7 @@ def do_load_buttons(buttons):
         button_proc(btn, BTN_SET_IMAGEINDEX, imageindex)
         button_proc(btn, BTN_SET_KIND, nkind)
 
-        if b['cap']:
+        if b['cap'] or is_menu:
             button_proc(btn, BTN_SET_ARROW_ALIGN, 'R')
 
         if is_menu:
